@@ -13,18 +13,47 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Host {
+id       String  @id @default(uuid())
+username String  @unique
+password String
+name     String
+email String
+phoneNumber    String?
+profilePicture String?
+aboutMe String?
+listings Property[]
+}
+
 model User { 
   id       String  @id @default(uuid())
   username String  @unique
   password String
   name     String
   email String
-  phoneNumber    String
-  pictureUrl String
+  phoneNumber String?
+  pictureUrl String?
 
   bookings Booking[]
   reviews Review[]
   }
+
+  model Property {
+id String @id @default(uuid())
+hostId String
+title String
+description String
+location String
+pricePerNight Decimal
+bedroomCount Int
+bathRoomCount Int
+maxGuestCount Int
+rating Int?
+
+host Host @relation(fields: [hostId], references: [id])
+bookings Booking[] 
+reviews Review[]
+}
 
 model Booking {
 id String  @id @default(uuid())
@@ -38,35 +67,6 @@ bookingStatus String
 
 user User @relation(fields: [userId], references: [id])
 property Property @relation(fields: [propertyId], references: [id])
-}
-
-model Property {
-id String @id @default(uuid())
-hostId String
-title String
-description String
-location String
-pricePerNight Decimal
-bedroomCount Int
-bathroomCount Int
-maxGuestCount Int
-rating Int
-
-host Host @relation(fields: [hostId], references: [id])
-bookings Booking[] 
-reviews Review[]
-}
-
-model Host {
-id       String  @id @default(uuid())
-username String  @unique
-password String
-name     String
-email String
-phoneNumber    String
-profilePicture String
-aboutMe String
-listings Property[]
 }
 
 model Review {
