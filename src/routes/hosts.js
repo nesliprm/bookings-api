@@ -29,8 +29,12 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.get("/:name", async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   const { name } = req.query;
+
+  if (!name) {
+    return res.status(400).json({ message: `Name is required.` });
+  }
 
   try {
     const host = await getHostByName(name);
