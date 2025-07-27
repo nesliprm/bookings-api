@@ -2,6 +2,7 @@ import { Router } from "express";
 import getUsers from "../services/users/getUsers.js";
 import getUserById from "../services/users/getUserById.js";
 import getUserByUsername from "../services/users/getUserByUsername.js";
+import getUserByEmail from "../services/users/getUserByEmail.js";
 import updateUserById from "../services/users/updateUserById.js";
 import createUser from "../services/users/createUser.js";
 import deleteUserById from "../services/users/deleteUserById.js";
@@ -9,9 +10,39 @@ import auth from "../middleware/auth.js";
 
 const router = Router();
 
-router.get("/", async (req, res) => {
-  const users = await getUsers();
-  res.status(200).json(users);
+router.get("/", async (req, res, next) => {
+  const { username, email } = req.query;
+
+  try {
+    if (username) {
+      const users = await getUserByUsername(username);
+
+      if (!users.length) {
+        return res
+          .status(404)
+          .json({ message: `User with username "${username}" not found` });
+      }
+
+      return res.status(200).json(users);
+    }
+
+    if (email) {
+      const users = await getUserByEmail(email);
+
+      if (!users.length) {
+        return res
+          .status(404)
+          .json({ message: `User with email "${email}" not found` });
+      }
+
+      return res.status(200).json(users);
+    }
+
+    const users = await getUsers();
+    res.status(200).json(users);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.get("/:id", async (req, res, next) => {
@@ -21,28 +52,6 @@ router.get("/:id", async (req, res, next) => {
 
     if (!user) {
       res.status(404).json({ message: `User with id ${id} not found` });
-    } else {
-      res.status(200).json(user);
-    }
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.get("/", async (req, res, next) => {
-  const { username } = req.query;
-
-  if (!username) {
-    return res.status(400).json({ message: `Username is required.` });
-  }
-
-  try {
-    const user = await getUserByUsername(username);
-
-    if (!user.length) {
-      res
-        .status(404)
-        .json({ message: `User with username ${username} not found` });
     } else {
       res.status(200).json(user);
     }
