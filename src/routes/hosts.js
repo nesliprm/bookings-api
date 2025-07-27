@@ -9,9 +9,27 @@ import auth from "../middleware/auth.js";
 
 const router = Router();
 
-router.get("/", async (req, res) => {
-  const hosts = await getHosts();
-  res.status(200).json(hosts);
+router.get("/", async (req, res, next) => {
+  const { name } = req.query;
+
+  try {
+    if (name) {
+      const hosts = await getHostByName(name);
+
+      if (!hosts.length) {
+        return res
+          .status(404)
+          .json({ message: `Host with name "${name}" not found` });
+      }
+
+      return res.status(200).json(hosts);
+    }
+
+    const hosts = await getHosts();
+    res.status(200).json(hosts);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.get("/:id", async (req, res, next) => {
@@ -21,26 +39,6 @@ router.get("/:id", async (req, res, next) => {
 
     if (!host) {
       res.status(404).json({ message: `Host with id ${id} not found` });
-    } else {
-      res.status(200).json(host);
-    }
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.get("/", async (req, res, next) => {
-  const { name } = req.query;
-
-  if (!name) {
-    return res.status(400).json({ message: `Name is required.` });
-  }
-
-  try {
-    const host = await getHostByName(name);
-
-    if (!host.length) {
-      res.status(404).json({ message: `Host with name ${name} not found` });
     } else {
       res.status(200).json(host);
     }
