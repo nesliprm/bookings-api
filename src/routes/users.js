@@ -89,17 +89,29 @@ router.put("/:id", auth, async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
   const { username, password, name, email, phoneNumber, pictureUrl } = req.body;
-  const newUser = await createUser(
-    username,
-    password,
-    name,
-    email,
-    phoneNumber,
-    pictureUrl
-  );
-  res.status(201).json(newUser);
+
+  if (!username || !password || !email) {
+    return res
+      .status(400)
+      .json({ message: "Username, password, and email are required." });
+  }
+
+  try {
+    const newUser = await createUser(
+      username,
+      password,
+      name,
+      email,
+      phoneNumber,
+      pictureUrl
+    );
+
+    res.status(201).json(newUser);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.delete("/:id", auth, async (req, res, next) => {
