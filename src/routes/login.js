@@ -1,4 +1,5 @@
 import { Router } from "express";
+import "dotenv/config";
 import jwt from "jsonwebtoken";
 import prisma from "../lib/prisma.js";
 
