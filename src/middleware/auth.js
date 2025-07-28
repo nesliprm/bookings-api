@@ -19,7 +19,7 @@ const authMiddleware = (req, res, next) => {
       return res.status(403).json({ message: "Invalid token provided!" });
     }
 
-    req.user = decoded;
+    req.account = decoded;
     next();
   });
 };
