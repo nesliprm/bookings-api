@@ -4,7 +4,8 @@ import "dotenv/config";
 
 import bookingsRouter from "./routes/bookings.js";
 import hostsRouter from "./routes/hosts.js";
-import loginRouter from "./routes/login.js";
+import userLoginRouter from "./routes/userlogin.js";
+import hostLoginRouter from "./routes/hostlogin.js";
 import propertiesRouter from "./routes/properties.js";
 import reviewsRouter from "./routes/reviews.js";
 import usersRouter from "./routes/users.js";
@@ -39,7 +40,8 @@ app.use("/hosts", hostsRouter);
 app.use("/properties", propertiesRouter);
 app.use("/reviews", reviewsRouter);
 app.use("/users", usersRouter);
-app.use("/login", loginRouter);
+app.use("/userlogin", userLoginRouter);
+app.use("/hostlogin", hostLoginRouter);
 
 app.use(Sentry.Handlers.errorHandler());
 app.use(errorHandler);
