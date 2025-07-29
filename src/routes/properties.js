@@ -31,7 +31,7 @@ router.get("/", async (req, res, next) => {
 
       if (!properties.length) {
         return res.status(404).json({
-          message: `No property found with ${pricePerNight} per night`,
+          message: `No property found with price ${pricePerNight} per night`,
         });
       }
 

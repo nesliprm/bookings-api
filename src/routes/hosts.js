@@ -85,7 +85,7 @@ router.put("/:id", auth, async (req, res, next) => {
   }
 });
 
-router.post("/", auth, async (req, res) => {
+router.post("/", async (req, res, next) => {
   const {
     username,
     password,
@@ -95,16 +95,21 @@ router.post("/", auth, async (req, res) => {
     profilePicture,
     aboutMe,
   } = req.body;
-  const newHost = await createHost(
-    username,
-    password,
-    name,
-    email,
-    phoneNumber,
-    profilePicture,
-    aboutMe
-  );
-  res.status(201).json(newHost);
+
+  try {
+    const newHost = await createHost(
+      username,
+      password,
+      name,
+      email,
+      phoneNumber,
+      profilePicture,
+      aboutMe
+    );
+    res.status(201).json(newHost);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.delete("/:id", auth, async (req, res, next) => {

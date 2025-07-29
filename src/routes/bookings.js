@@ -85,26 +85,22 @@ router.put("/:id", auth, async (req, res, next) => {
   }
 });
 
-router.post("/", auth, async (req, res) => {
-  const {
-    userId,
-    propertyId,
-    checkinDate,
-    checkoutDate,
-    numberOfGuests,
-    totalPrice,
-    bookingStatus,
-  } = req.body;
-  const newBooking = await createBooking(
-    userId,
-    propertyId,
-    checkinDate,
-    checkoutDate,
-    numberOfGuests,
-    totalPrice,
-    bookingStatus
-  );
-  res.status(201).json(newBooking);
+router.post("/", auth, async (req, res, next) => {
+  const { userId, propertyId, checkinDate, checkoutDate, numberOfGuests } =
+    req.body;
+
+  try {
+    const newBooking = await createBooking(
+      userId,
+      propertyId,
+      checkinDate,
+      checkoutDate,
+      numberOfGuests
+    );
+    res.status(201).json(newBooking);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.delete("/:id", auth, async (req, res, next) => {

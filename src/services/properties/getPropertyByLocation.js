@@ -2,7 +2,7 @@ import prisma from "../../lib/prisma.js";
 
 const getPropertyByLocation = async (location) => {
   return prisma.property.findMany({
-    where: { location },
+    where: { location: { contains: location.toLowerCase() } },
   });
 };
 

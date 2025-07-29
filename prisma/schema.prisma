@@ -63,7 +63,7 @@ checkinDate DateTime
 checkoutDate DateTime
 numberOfGuests Int
 totalPrice Int
-bookingStatus String
+bookingStatus String @default("pending")
 
 user User @relation(fields: [userId], references: [id])
 property Property @relation(fields: [propertyId], references: [id])

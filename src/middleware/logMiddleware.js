@@ -7,7 +7,7 @@ const log = (req, res, next) => {
 
   const ms = new Date() - start;
   logger.info(
-    `${req.method} ${req.originalUrl}. Status: ${res.statusCode}. Duration: ${ms} ms`
+    `Method: ${req.method} | Endpoint: ${req.originalUrl} | Status: ${res.statusCode} | Duration: ${ms} ms`
   );
 };
 
