@@ -1,2024 +1,2192 @@
 {
-  "info": {
-    "_postman_id": "8e2ed9fb-996f-49cf-9de7-1a7430c875f5",
-    "name": "bookings-api-happy-paths",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "44762698",
-    "_collection_link": "https://nesli-4153839.postman.co/workspace/bookings-api~b58e3dd0-b346-47ca-9003-e1931f7dbb99/collection/44762698-8e2ed9fb-996f-49cf-9de7-1a7430c875f5?action=share&source=collection_link&creator=44762698"
-  },
-  "item": [
-    {
-      "name": "users (happy)",
-      "item": [
-        {
-          "name": "GET users",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/users endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\r",
-                  "  \"/users endpoint should return a response body that is an array\",\r",
-                  "  () => {\r",
-                  "    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
-                  "  }\r",
-                  ");"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/users",
-              "host": ["{{baseUrl}}"],
-              "path": ["users"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GET user by id",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/users/:id endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\r",
-                  "  \"/users/:id endpoint should return a response body that is an object\",\r",
-                  "  () => {\r",
-                  "    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-                  "  }\r",
-                  ");\r",
-                  "\r",
-                  "pm.test(\"User object should contain expected fields\", () => {\r",
-                  "  const user = pm.response.json();\r",
-                  "  pm.expect(user).to.be.an(\"object\");\r",
-                  "  pm.expect(user).to.have.property(\"id\");\r",
-                  "  pm.expect(user).to.have.property(\"name\");\r",
-                  "  pm.expect(user).to.have.property(\"email\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Returned user should have the correct ID\", () => {\r",
-                  "  const user = pm.response.json();\r",
-                  "  const expectedId = pm.request.url.path[1];\r",
-                  "  pm.expect(user.id).to.eql(expectedId);\r",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/users/a1234567-89ab-cdef-0123-456789abcdef",
-              "host": ["{{baseUrl}}"],
-              "path": ["users", "a1234567-89ab-cdef-0123-456789abcdef"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GET user by email",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/users?email= endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"/users?email= endpoint should return an array\", () => {\r",
-                  "  const response = pm.response.json();\r",
-                  "  pm.expect(response).to.be.an(\"array\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Response array should contain exactly one user object\", () => {\r",
-                  "  const response = pm.response.json();\r",
-                  "  pm.expect(response.length).to.equal(1);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"User object should contain expected fields\", () => {\r",
-                  "  const user = pm.response.json()[0];\r",
-                  "  pm.expect(user).to.have.property(\"id\");\r",
-                  "  pm.expect(user).to.have.property(\"username\");\r",
-                  "  pm.expect(user).to.have.property(\"name\");\r",
-                  "  pm.expect(user).to.have.property(\"email\");\r",
-                  "  pm.expect(user).to.have.property(\"phoneNumber\");\r",
-                  "  pm.expect(user).to.have.property(\"pictureUrl\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Returned user should have the queried email\", () => {\r",
-                  "  const user = pm.response.json()[0];\r",
-                  "  const expectedEmail = pm.request.url.query.get(\"email\");\r",
-                  "  pm.expect(user.email).to.eql(expectedEmail);\r",
-                  "});\r",
-                  "\r",
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "method": "GET",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/users?email=johndoe@example.com",
-              "host": ["{{baseUrl}}"],
-              "path": ["users"],
-              "query": [
-                {
-                  "key": "email",
-                  "value": "johndoe@example.com"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GET user by username",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/users?=username endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"/users?=username endpoint should return an array\", () => {\r",
-                  "  const response = pm.response.json();\r",
-                  "  pm.expect(response).to.be.an(\"array\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Response array should contain exactly one user object\", () => {\r",
-                  "  const response = pm.response.json();\r",
-                  "  pm.expect(response.length).to.equal(1);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"User object should contain expected fields\", () => {\r",
-                  "  const user = pm.response.json()[0];\r",
-                  "  pm.expect(user).to.have.property(\"id\");\r",
-                  "  pm.expect(user).to.have.property(\"username\");\r",
-                  "  pm.expect(user).to.have.property(\"name\");\r",
-                  "  pm.expect(user).to.have.property(\"email\");\r",
-                  "  pm.expect(user).to.have.property(\"phoneNumber\");\r",
-                  "  pm.expect(user).to.have.property(\"pictureUrl\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Returned user should have the correct username\", () => {\r",
-                  "  const user = pm.response.json()[0];\r",
-                  "  const expectedUsername = pm.request.url.query.get(\"username\");\r",
-                  "  pm.expect(user.username).to.eql(expectedUsername);\r",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "method": "GET",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
-            "url": {
-              "raw": "{{baseUrl}}/users?username=jdoe",
-              "host": ["{{baseUrl}}"],
-              "path": ["users"],
-              "query": [
-                {
-                  "key": "username",
-                  "value": "jdoe"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "CREATE user",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/users endpoint should return 201 Created status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(201);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\r",
-                  "  \"/users endpoint should return a response body that is an object\",\r",
-                  "  () => {\r",
-                  "    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-                  "  }\r",
-                  ");\r",
-                  "\r",
-                  "pm.test(\"Created user object should contain expected fields\", () => {\r",
-                  "  const user = pm.response.json();\r",
-                  "  pm.expect(user).to.have.property(\"id\");\r",
-                  "  pm.expect(user).to.have.property(\"username\");\r",
-                  "  pm.expect(user).to.have.property(\"password\");\r",
-                  "  pm.expect(user).to.have.property(\"name\");\r",
-                  "  pm.expect(user).to.have.property(\"email\");\r",
-                  "  pm.expect(user).to.have.property(\"phoneNumber\");\r",
-                  "  pm.expect(user).to.have.property(\"pictureUrl\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Returned user should match submitted data\", () => {\r",
-                  "  const user = pm.response.json();\r",
-                  "  const requestData = JSON.parse(pm.request.body.raw);\r",
-                  "  pm.expect(user.username).to.eql(requestData.username);\r",
-                  "  pm.expect(user.password).to.eql(requestData.password);\r",
-                  "  pm.expect(user.name).to.eql(requestData.name);\r",
-                  "  pm.expect(user.email).to.eql(requestData.email);\r",
-                  "  pm.expect(user.phoneNumber).to.eql(requestData.phoneNumber);\r",
-                  "  pm.expect(user.pictureUrl).to.eql(requestData.pictureUrl);\r",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"username\": \"nparma\",\r\n    \"password\": \"12345\",\r\n    \"name\": \"Nesli Parma\",\r\n    \"email\": \"nparmaksz@example.com\",\r\n    \"phoneNumber\": \"123-456-7890\",\r\n    \"pictureUrl\": null\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/users",
-              "host": ["{{baseUrl}}"],
-              "path": ["users"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "UPDATE user",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/users/:id endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\r",
-                  "  \"/users/:id endpoint should return a response body that is an object\",\r",
-                  "  () => {\r",
-                  "    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-                  "  }\r",
-                  ");\r",
-                  "\r",
-                  "pm.test(\"Response should contain a success message\", () => {\r",
-                  "  const jsonData = pm.response.json();\r",
-                  "  pm.expect(jsonData).to.have.property(\"message\");\r",
-                  "  pm.expect(jsonData.message).to.include(\"successfully updated\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Response should contain an updated user object with expected fields\", () => {\r",
-                  "  const user = pm.response.json().user;\r",
-                  "  pm.expect(user).to.have.property(\"id\");\r",
-                  "  pm.expect(user).to.have.property(\"username\");\r",
-                  "  pm.expect(user).to.have.property(\"password\");\r",
-                  "  pm.expect(user).to.have.property(\"name\");\r",
-                  "  pm.expect(user).to.have.property(\"email\");\r",
-                  "  pm.expect(user).to.have.property(\"phoneNumber\");\r",
-                  "  pm.expect(user).to.have.property(\"pictureUrl\");\r",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{userToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"email\": \"newuser2@example.com\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/users/a1234567-89ab-cdef-0123-456789abcdef",
-              "host": ["{{baseUrl}}"],
-              "path": ["users", "a1234567-89ab-cdef-0123-456789abcdef"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "DELETE user",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/users/:id endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\r",
-                  "  \"/users/:id endpoint should return a response body that is an object\",\r",
-                  "  () => {\r",
-                  "    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-                  "  }\r",
-                  ");\r",
-                  "\r",
-                  "pm.test(\"Response should contain a success message\", () => {\r",
-                  "  const jsonData = pm.response.json();\r",
-                  "  pm.expect(jsonData).to.have.property(\"message\");\r",
-                  "  pm.expect(jsonData.message).to.include(\"successfully deleted\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Response should show deleted user object with expected fields\", () => {\r",
-                  "  const user = pm.response.json().user;\r",
-                  "  pm.expect(user).to.have.property(\"id\");\r",
-                  "  pm.expect(user).to.have.property(\"username\");\r",
-                  "  pm.expect(user).to.have.property(\"password\");\r",
-                  "  pm.expect(user).to.have.property(\"name\");\r",
-                  "  pm.expect(user).to.have.property(\"email\");\r",
-                  "  pm.expect(user).to.have.property(\"phoneNumber\");\r",
-                  "  pm.expect(user).to.have.property(\"pictureUrl\");\r",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{userToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/users/c9a7726b-f4dc-4753-b0ee-d0f47901c807",
-              "host": ["{{baseUrl}}"],
-              "path": ["users", "c9a7726b-f4dc-4753-b0ee-d0f47901c807"]
-            }
-          },
-          "response": []
-        }
-      ],
-      "event": [
-        {
-          "listen": "prerequest",
-          "script": {
-            "type": "text/javascript",
-            "packages": {},
-            "exec": [""]
-          }
-        },
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "packages": {},
-            "exec": [""]
-          }
-        }
-      ]
-    },
-    {
-      "name": "hosts (happy)",
-      "item": [
-        {
-          "name": "GET hosts",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/hosts endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\r",
-                  "  \"/hosts endpoint should return a response body that is an array\",\r",
-                  "  () => {\r",
-                  "    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
-                  "  }\r",
-                  ");"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "method": "GET",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"username\": \"nparma\",\r\n    \"password\": \"12345\",\r\n    \"name\": \"Nesli Parma\",\r\n    \"email\": \"nparma@example.com\",\r\n    \"phoneNumber\": \"123-456-7891\",\r\n    \"pictureUrl\": null\r\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/hosts",
-              "host": ["{{baseUrl}}"],
-              "path": ["hosts"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GET host by id",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/hosts/:id endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\r",
-                  "  \"/hosts/:id endpoint should return a response body that is an object\",\r",
-                  "  () => {\r",
-                  "    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-                  "  }\r",
-                  ");\r",
-                  "\r",
-                  "pm.test(\"Host object should contain expected fields\", () => {\r",
-                  "  const host = pm.response.json();\r",
-                  "  pm.expect(host).to.be.an(\"object\");\r",
-                  "  pm.expect(host).to.have.property(\"id\");\r",
-                  "  pm.expect(host).to.have.property(\"username\");\r",
-                  "  pm.expect(host).to.have.property(\"name\");\r",
-                  "  pm.expect(host).to.have.property(\"email\");\r",
-                  "  pm.expect(host).to.have.property(\"phoneNumber\");\r",
-                  "  pm.expect(host).to.have.property(\"profilePicture\");\r",
-                  "  pm.expect(host).to.have.property(\"aboutMe\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Returned host should have the correct ID\", () => {\r",
-                  "  const host = pm.response.json();\r",
-                  "  const expectedId = pm.request.url.path[1];\r",
-                  "  pm.expect(host.id).to.eql(expectedId);\r",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "method": "GET",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"username\": \"nparma\",\r\n    \"password\": \"12345\",\r\n    \"name\": \"Nesli Parma\",\r\n    \"email\": \"nparma@example.com\",\r\n    \"phoneNumber\": \"123-456-7891\",\r\n    \"pictureUrl\": null\r\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/hosts/f1234567-89ab-cdef-0123-456789abcdef",
-              "host": ["{{baseUrl}}"],
-              "path": ["hosts", "f1234567-89ab-cdef-0123-456789abcdef"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GET host by name",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/host?name= endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"/host?name= endpoint should return an array\", () => {\r",
-                  "  const response = pm.response.json();\r",
-                  "  pm.expect(response).to.be.an(\"array\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Response array should contain exactly one host object\", () => {\r",
-                  "  const response = pm.response.json();\r",
-                  "  pm.expect(response.length).to.equal(1);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Host object should contain expected fields\", () => {\r",
-                  "  const host = pm.response.json()[0];\r",
-                  "  pm.expect(host).to.have.property(\"id\");\r",
-                  "  pm.expect(host).to.have.property(\"username\");\r",
-                  "  pm.expect(host).to.have.property(\"name\");\r",
-                  "  pm.expect(host).to.have.property(\"email\");\r",
-                  "  pm.expect(host).to.have.property(\"phoneNumber\");\r",
-                  "  pm.expect(host).to.have.property(\"profilePicture\");\r",
-                  "  pm.expect(host).to.have.property(\"aboutMe\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Returned host should have the correct name\", () => {\r",
-                  "  const host = pm.response.json()[0];\r",
-                  "  const expectedName = decodeURIComponent(pm.request.url.query.get(\"name\"));\r",
-                  "  pm.expect(host.name).to.eql(expectedName);\r",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "method": "GET",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"username\": \"nparma\",\r\n    \"password\": \"12345\",\r\n    \"name\": \"Nesli Parma\",\r\n    \"email\": \"nparma@example.com\",\r\n    \"phoneNumber\": \"123-456-7891\",\r\n    \"pictureUrl\": null\r\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}/hosts?name=John Doe",
-              "host": ["{{baseUrl}}"],
-              "path": ["hosts"],
-              "query": [
-                {
-                  "key": "name",
-                  "value": "John Doe"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "CREATE host",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/hosts endpoint should return 201 Created status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(201);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\r",
-                  "  \"/hosts endpoint should return a response body that is an object\",\r",
-                  "  () => {\r",
-                  "    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-                  "  }\r",
-                  ");\r",
-                  "\r",
-                  "pm.test(\"Created host object should contain expected fields\", () => {\r",
-                  "  const host = pm.response.json();\r",
-                  "  pm.expect(host).to.have.property(\"id\");\r",
-                  "  pm.expect(host).to.have.property(\"username\");\r",
-                  "  pm.expect(host).to.have.property(\"password\");\r",
-                  "  pm.expect(host).to.have.property(\"name\");\r",
-                  "  pm.expect(host).to.have.property(\"email\");\r",
-                  "  pm.expect(host).to.have.property(\"phoneNumber\");\r",
-                  "  pm.expect(host).to.have.property(\"profilePicture\");\r",
-                  "  pm.expect(host).to.have.property(\"aboutMe\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Returned host should match submitted data\", () => {\r",
-                  "  const host = pm.response.json();\r",
-                  "  const requestData = JSON.parse(pm.request.body.raw);\r",
-                  "  pm.expect(host.username).to.eql(requestData.username);\r",
-                  "  pm.expect(host.password).to.eql(requestData.password);\r",
-                  "  pm.expect(host.name).to.eql(requestData.name);\r",
-                  "  pm.expect(host.email).to.eql(requestData.email);\r",
-                  "  pm.expect(host.phoneNumber).to.eql(requestData.phoneNumber);\r",
-                  "  pm.expect(host.profilePicture).to.eql(requestData.profilePicture);\r",
-                  "  pm.expect(host.aboutMe).to.eql(requestData.aboutMe);\r",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"username\": \"lisa\",\r\n  \"password\": \"pass4321\",\r\n  \"name\": \"Lisa Müller\",\r\n  \"email\": \"lisa@email.com\",\r\n  \"phoneNumber\": \"+491234567890\",\r\n  \"profilePicture\": \"https://wincacademy.github.io/webpages/media/lisa.jpeg\",\r\n  \"aboutMe\": \"Designer turned developer, lover of clean code and strong coffee.\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/hosts",
-              "host": ["{{baseUrl}}"],
-              "path": ["hosts"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "UPDATE host",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/hosts/:id endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\r",
-                  "  \"/hosts/:id endpoint should return a response body that is an object\",\r",
-                  "  () => {\r",
-                  "    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-                  "  }\r",
-                  ");\r",
-                  "\r",
-                  "pm.test(\"Response should contain a success message\", () => {\r",
-                  "  const jsonData = pm.response.json();\r",
-                  "  pm.expect(jsonData).to.have.property(\"message\");\r",
-                  "  pm.expect(jsonData.message).to.include(\"successfully updated\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Response should contain an updated host object with expected fields\", () => {\r",
-                  "  const host = pm.response.json().host;\r",
-                  "  pm.expect(host).to.have.property(\"id\");\r",
-                  "  pm.expect(host).to.have.property(\"username\");\r",
-                  "  pm.expect(host).to.have.property(\"password\");\r",
-                  "  pm.expect(host).to.have.property(\"name\");\r",
-                  "  pm.expect(host).to.have.property(\"email\");\r",
-                  "  pm.expect(host).to.have.property(\"phoneNumber\");\r",
-                  "  pm.expect(host).to.have.property(\"profilePicture\");\r",
-                  "  pm.expect(host).to.have.property(\"aboutMe\");\r",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{hostToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"password\": \"7654321\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/hosts/f1234567-89ab-cdef-0123-456789abcdef",
-              "host": ["{{baseUrl}}"],
-              "path": ["hosts", "f1234567-89ab-cdef-0123-456789abcdef"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "DELETE host",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/hosts/:id endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\r",
-                  "  \"/hosts/:id endpoint should return a response body that is an object\",\r",
-                  "  () => {\r",
-                  "    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-                  "  }\r",
-                  ");\r",
-                  "\r",
-                  "pm.test(\"Response should contain a success message\", () => {\r",
-                  "  const jsonData = pm.response.json();\r",
-                  "  pm.expect(jsonData).to.have.property(\"message\");\r",
-                  "  pm.expect(jsonData.message).to.include(\"successfully deleted\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Response should show deleted host object with expected fields\", () => {\r",
-                  "  const host = pm.response.json().host;\r",
-                  "  pm.expect(host).to.have.property(\"id\");\r",
-                  "  pm.expect(host).to.have.property(\"username\");\r",
-                  "  pm.expect(host).to.have.property(\"password\");\r",
-                  "  pm.expect(host).to.have.property(\"name\");\r",
-                  "  pm.expect(host).to.have.property(\"email\");\r",
-                  "  pm.expect(host).to.have.property(\"phoneNumber\");\r",
-                  "  pm.expect(host).to.have.property(\"profilePicture\");\r",
-                  "  pm.expect(host).to.have.property(\"aboutMe\");\r",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{hostToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
-            "url": {
-              "raw": "{{baseUrl}}/hosts/81b18b22-ed4c-45aa-9cc0-4b7edc793e79",
-              "host": ["{{baseUrl}}"],
-              "path": ["hosts", "81b18b22-ed4c-45aa-9cc0-4b7edc793e79"]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "bookings (happy)",
-      "item": [
-        {
-          "name": "GET bookings",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/bookings endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\r",
-                  "  \"/bookings endpoint should return a response body that is an array\",\r",
-                  "  () => {\r",
-                  "    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
-                  "  }\r",
-                  ");"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/bookings",
-              "host": ["{{baseUrl}}"],
-              "path": ["bookings"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GET booking by id",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/bookings/:id endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\r",
-                  "  \"/bookings/:id endpoint should return a response body that is an object\",\r",
-                  "  () => {\r",
-                  "    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-                  "  }\r",
-                  ");\r",
-                  "\r",
-                  "pm.test(\"booking object should contain expected fields\", () => {\r",
-                  "  const booking = pm.response.json();\r",
-                  "  pm.expect(booking).to.be.an(\"object\");\r",
-                  "  pm.expect(booking).to.have.property(\"id\");\r",
-                  "  pm.expect(booking).to.have.property(\"userId\");\r",
-                  "  pm.expect(booking).to.have.property(\"propertyId\");\r",
-                  "  pm.expect(booking).to.have.property(\"checkinDate\");\r",
-                  "  pm.expect(booking).to.have.property(\"checkoutDate\");\r",
-                  "  pm.expect(booking).to.have.property(\"numberOfGuests\");\r",
-                  "  pm.expect(booking).to.have.property(\"totalPrice\");\r",
-                  "  pm.expect(booking).to.have.property(\"bookingStatus\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Returned booking should have the correct ID\", () => {\r",
-                  "  const booking = pm.response.json();\r",
-                  "  const expectedId = pm.request.url.path[1];\r",
-                  "  pm.expect(booking.id).to.eql(expectedId);\r",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "method": "GET",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
-            "url": {
-              "raw": "{{baseUrl}}/bookings/f0123456-78ab-cdef-0123-456789abcdef",
-              "host": ["{{baseUrl}}"],
-              "path": ["bookings", "f0123456-78ab-cdef-0123-456789abcdef"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GET booking by user id",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/bookings?userId= endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"/bookings?userId= endpoint should return an array\", () => {\r",
-                  "  const response = pm.response.json();\r",
-                  "  pm.expect(response).to.be.an(\"array\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Each booking in the response should have expected fields\", () => {\r",
-                  "  const bookings = pm.response.json();\r",
-                  "  bookings.forEach((booking) => {\r",
-                  "    pm.expect(booking).to.have.property(\"id\");\r",
-                  "    pm.expect(booking).to.have.property(\"userId\");\r",
-                  "    pm.expect(booking).to.have.property(\"propertyId\");\r",
-                  "    pm.expect(booking).to.have.property(\"checkinDate\");\r",
-                  "    pm.expect(booking).to.have.property(\"checkoutDate\");\r",
-                  "    pm.expect(booking).to.have.property(\"numberOfGuests\");\r",
-                  "    pm.expect(booking).to.have.property(\"totalPrice\");\r",
-                  "    pm.expect(booking).to.have.property(\"bookingStatus\");\r",
-                  "  });\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"All returned bookings should have the correct userId\", () => {\r",
-                  "  const bookings = pm.response.json();\r",
-                  "  const expectedUserId = decodeURIComponent(pm.request.url.query.get(\"userId\"));\r",
-                  "  bookings.forEach((booking) => {\r",
-                  "    pm.expect(booking.userId).to.eql(expectedUserId);\r",
-                  "  });\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Response can be an empty array if user has no bookings\", () => {\r",
-                  "  const bookings = pm.response.json();\r",
-                  "  pm.expect(bookings).to.be.an(\"array\");\r",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "method": "GET",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
-            "url": {
-              "raw": "{{baseUrl}}/bookings/?userId=a1234567-89ab-cdef-0123-456789abcdef",
-              "host": ["{{baseUrl}}"],
-              "path": ["bookings", ""],
-              "query": [
-                {
-                  "key": "userId",
-                  "value": "a1234567-89ab-cdef-0123-456789abcdef"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "CREATE booking",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/bookings endpoint should return 201 Created status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(201);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\r",
-                  "  \"/bookings endpoint should return a response body that is an object\",\r",
-                  "  () => {\r",
-                  "    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-                  "  }\r",
-                  ");\r",
-                  "\r",
-                  "pm.test(\"Created booking object should contain expected fields\", () => {\r",
-                  "  const booking = pm.response.json();\r",
-                  "   pm.expect(booking).to.have.property(\"id\");\r",
-                  "    pm.expect(booking).to.have.property(\"userId\");\r",
-                  "    pm.expect(booking).to.have.property(\"propertyId\");\r",
-                  "    pm.expect(booking).to.have.property(\"checkinDate\");\r",
-                  "    pm.expect(booking).to.have.property(\"checkoutDate\");\r",
-                  "    pm.expect(booking).to.have.property(\"numberOfGuests\");\r",
-                  "    pm.expect(booking).to.have.property(\"totalPrice\");\r",
-                  "    pm.expect(booking).to.have.property(\"bookingStatus\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Returned booking should match submitted data\", () => {\r",
-                  "  const booking = pm.response.json();\r",
-                  "  const requestData = JSON.parse(pm.request.body.raw);\r",
-                  "  pm.expect(booking.userId).to.eql(requestData.userId);\r",
-                  "  pm.expect(booking.propertyId).to.eql(requestData.propertyId);\r",
-                  "  pm.expect(booking.checkinDate).to.eql(requestData.checkinDate);\r",
-                  "  pm.expect(booking.checkoutDate).to.eql(requestData.checkoutDate);\r",
-                  "  pm.expect(booking.numberOfGuests).to.eql(requestData.numberOfGuests);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Initial booking status should be 'pending'\", () => {\r",
-                  "  const requestData = JSON.parse(pm.request.body.raw);\r",
-                  "  if (!(\"bookingStatus\" in requestData)) {\r",
-                  "    pm.expect(pm.response.json().bookingStatus).to.eql(\"pending\");\r",
-                  "  }\r",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{userToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"userId\": \"a1234567-89ab-cdef-0123-456789abcdef\",\r\n    \"propertyId\": \"a9876543-21dc-4321-ba98-fedcba098765\",\r\n    \"checkinDate\": \"2025-09-05T14:00:00.000Z\",\r\n    \"checkoutDate\": \"2025-09-10T10:00:00.000Z\",\r\n    \"numberOfGuests\": 1\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/bookings",
-              "host": ["{{baseUrl}}"],
-              "path": ["bookings"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "UPDATE booking",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/bookings/:id endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\r",
-                  "  \"/bookings/:id endpoint should return a response body that is an object\",\r",
-                  "  () => {\r",
-                  "    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-                  "  }\r",
-                  ");\r",
-                  "\r",
-                  "pm.test(\"Response should contain a success message\", () => {\r",
-                  "  const jsonData = pm.response.json();\r",
-                  "  pm.expect(jsonData).to.have.property(\"message\");\r",
-                  "  pm.expect(jsonData.message).to.include(\"successfully updated\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Updated booking object should contain expected fields\", () => {\r",
-                  "  const booking = pm.response.json().booking;\r",
-                  "  pm.expect(booking).to.have.property(\"id\");\r",
-                  "  pm.expect(booking).to.have.property(\"userId\");\r",
-                  "  pm.expect(booking).to.have.property(\"propertyId\");\r",
-                  "  pm.expect(booking).to.have.property(\"checkinDate\");\r",
-                  "  pm.expect(booking).to.have.property(\"checkoutDate\");\r",
-                  "  pm.expect(booking).to.have.property(\"numberOfGuests\");\r",
-                  "  pm.expect(booking).to.have.property(\"totalPrice\");\r",
-                  "  pm.expect(booking).to.have.property(\"bookingStatus\");\r",
-                  "});\r",
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{userToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"numberOfGuests\": 4\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/bookings/e38a6404-a1bb-400c-990a-2d0caa4d1cc0",
-              "host": ["{{baseUrl}}"],
-              "path": ["bookings", "e38a6404-a1bb-400c-990a-2d0caa4d1cc0"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "DELETE booking",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/bookings/:id endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\r",
-                  "  \"/bookings/:id endpoint should return a response body that is an object\",\r",
-                  "  () => {\r",
-                  "    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-                  "  }\r",
-                  ");\r",
-                  "\r",
-                  "pm.test(\"Response should contain a success message\", () => {\r",
-                  "  const jsonData = pm.response.json();\r",
-                  "  pm.expect(jsonData).to.have.property(\"message\");\r",
-                  "  pm.expect(jsonData.message).to.include(\"successfully deleted\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Response should show deleted booking object with expected fields\", () => {\r",
-                  "  const booking = pm.response.json().booking;\r",
-                  "  pm.expect(booking).to.have.property(\"id\");\r",
-                  "  pm.expect(booking).to.have.property(\"userId\");\r",
-                  "  pm.expect(booking).to.have.property(\"propertyId\");\r",
-                  "  pm.expect(booking).to.have.property(\"checkinDate\");\r",
-                  "  pm.expect(booking).to.have.property(\"checkoutDate\");\r",
-                  "  pm.expect(booking).to.have.property(\"numberOfGuests\");\r",
-                  "  pm.expect(booking).to.have.property(\"totalPrice\");\r",
-                  "  pm.expect(booking).to.have.property(\"bookingStatus\");\r",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{userToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
-            "url": {
-              "raw": "{{baseUrl}}/bookings/b4e1cf3c-fd25-451b-95af-e9b8310ba310",
-              "host": ["{{baseUrl}}"],
-              "path": ["bookings", "b4e1cf3c-fd25-451b-95af-e9b8310ba310"]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "properties (happy)",
-      "item": [
-        {
-          "name": "GET properties",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/properties endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\r",
-                  "  \"/properties endpoint should return a response body that is an array\",\r",
-                  "  () => {\r",
-                  "    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
-                  "  }\r",
-                  ");"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/properties",
-              "host": ["{{baseUrl}}"],
-              "path": ["properties"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GET property by id",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/properties/:id endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\r",
-                  "  \"/properties/:id endpoint should return a response body that is an object\",\r",
-                  "  () => {\r",
-                  "    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-                  "  }\r",
-                  ");\r",
-                  "\r",
-                  "pm.test(\"property object should contain expected fields\", () => {\r",
-                  "  const property = pm.response.json();\r",
-                  "  pm.expect(property).to.be.an(\"object\");\r",
-                  "  pm.expect(property).to.have.property(\"id\");\r",
-                  "  pm.expect(property).to.have.property(\"hostId\");\r",
-                  "  pm.expect(property).to.have.property(\"title\");\r",
-                  "  pm.expect(property).to.have.property(\"description\");\r",
-                  "  pm.expect(property).to.have.property(\"location\");\r",
-                  "  pm.expect(property).to.have.property(\"pricePerNight\");\r",
-                  "  pm.expect(property).to.have.property(\"bedroomCount\");\r",
-                  "  pm.expect(property).to.have.property(\"bathRoomCount\");\r",
-                  "  pm.expect(property).to.have.property(\"maxGuestCount\");\r",
-                  "  pm.expect(property).to.have.property(\"rating\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Returned property should have the correct ID\", () => {\r",
-                  "  const property = pm.response.json();\r",
-                  "  const expectedId = pm.request.url.path[1];\r",
-                  "  pm.expect(property.id).to.eql(expectedId);\r",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/properties/g9012345-67ef-0123-4567-89abcdef0123",
-              "host": ["{{baseUrl}}"],
-              "path": ["properties", "g9012345-67ef-0123-4567-89abcdef0123"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GET property by location",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/properties?location= endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"/properties?location= endpoint should return an array\", () => {\r",
-                  "  const response = pm.response.json();\r",
-                  "  pm.expect(response).to.be.an(\"array\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Each property in the response should have expected fields\", () => {\r",
-                  "  const properties = pm.response.json();\r",
-                  "  properties.forEach((property) => {\r",
-                  "    pm.expect(property).to.be.an(\"object\");\r",
-                  "  pm.expect(property).to.have.property(\"id\");\r",
-                  "  pm.expect(property).to.have.property(\"hostId\");\r",
-                  "  pm.expect(property).to.have.property(\"title\");\r",
-                  "  pm.expect(property).to.have.property(\"description\");\r",
-                  "  pm.expect(property).to.have.property(\"location\");\r",
-                  "  pm.expect(property).to.have.property(\"pricePerNight\");\r",
-                  "  pm.expect(property).to.have.property(\"bedroomCount\");\r",
-                  "  pm.expect(property).to.have.property(\"bathRoomCount\");\r",
-                  "  pm.expect(property).to.have.property(\"maxGuestCount\");\r",
-                  "  pm.expect(property).to.have.property(\"rating\");\r",
-                  "  });\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"All returned properties should include the searched location\", () => {\r",
-                  "  const properties = pm.response.json();\r",
-                  "  const expectedLocation = decodeURIComponent(pm.request.url.query.get(\"location\")).toLowerCase();\r",
-                  "  properties.forEach((property) => {\r",
-                  "    pm.expect(property.location.toLowerCase()).to.include(expectedLocation);\r",
-                  "  });\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Response can be an empty array if there are no matching properties\", () => {\r",
-                  "  const properties = pm.response.json();\r",
-                  "  pm.expect(properties).to.be.an(\"array\");\r",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/properties?location=tahoe",
-              "host": ["{{baseUrl}}"],
-              "path": ["properties"],
-              "query": [
-                {
-                  "key": "location",
-                  "value": "tahoe"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GET property by price",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/properties?pricePerNight= endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"/properties?pricePerNight= endpoint should return an array\", () => {\r",
-                  "  const response = pm.response.json();\r",
-                  "  pm.expect(response).to.be.an(\"array\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Each property in the response should have expected fields\", () => {\r",
-                  "  const properties = pm.response.json();\r",
-                  "  properties.forEach((property) => {\r",
-                  "    pm.expect(property).to.be.an(\"object\");\r",
-                  "  pm.expect(property).to.have.property(\"id\");\r",
-                  "  pm.expect(property).to.have.property(\"hostId\");\r",
-                  "  pm.expect(property).to.have.property(\"title\");\r",
-                  "  pm.expect(property).to.have.property(\"description\");\r",
-                  "  pm.expect(property).to.have.property(\"location\");\r",
-                  "  pm.expect(property).to.have.property(\"pricePerNight\");\r",
-                  "  pm.expect(property).to.have.property(\"bedroomCount\");\r",
-                  "  pm.expect(property).to.have.property(\"bathRoomCount\");\r",
-                  "  pm.expect(property).to.have.property(\"maxGuestCount\");\r",
-                  "  pm.expect(property).to.have.property(\"rating\");\r",
-                  "  });\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"All returned properties should have pricePerNight less than or equal to expected value\", () => {\r",
-                  "  const properties = pm.response.json();\r",
-                  "  const maxPrice = Number(pm.request.url.query.get(\"pricePerNight\"));\r",
-                  "  properties.forEach((property) => {\r",
-                  "    pm.expect(Number(property.pricePerNight)).to.be.at.most(maxPrice);\r",
-                  "  });\r",
-                  "});\r",
-                  "\r",
-                  "\r",
-                  "\r",
-                  "pm.test(\"Response can be an empty array if no properties match\", () => {\r",
-                  "  const properties = pm.response.json();\r",
-                  "  pm.expect(properties).to.be.an(\"array\");\r",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/properties?pricePerNight=120",
-              "host": ["{{baseUrl}}"],
-              "path": ["properties"],
-              "query": [
-                {
-                  "key": "pricePerNight",
-                  "value": "120"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "CREATE property",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/properties endpoint should return 201 Created status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(201);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"/properties endpoint should return a response body that is an object\", () => {\r",
-                  "  pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Created property object should contain expected fields\", () => {\r",
-                  "  const property = pm.response.json();\r",
-                  "  pm.expect(property).to.have.property(\"id\");\r",
-                  "  pm.expect(property).to.have.property(\"hostId\");\r",
-                  "  pm.expect(property).to.have.property(\"title\");\r",
-                  "  pm.expect(property).to.have.property(\"description\");\r",
-                  "  pm.expect(property).to.have.property(\"location\");\r",
-                  "  pm.expect(property).to.have.property(\"pricePerNight\");\r",
-                  "  pm.expect(property).to.have.property(\"bedroomCount\");\r",
-                  "  pm.expect(property).to.have.property(\"bathRoomCount\");\r",
-                  "  pm.expect(property).to.have.property(\"maxGuestCount\");\r",
-                  "  pm.expect(property).to.have.property(\"rating\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Returned property should match submitted data\", () => {\r",
-                  "  const property = pm.response.json();\r",
-                  "  const requestData = JSON.parse(pm.request.body.raw);\r",
-                  "\r",
-                  "  pm.expect(property.hostId).to.eql(requestData.hostId);\r",
-                  "  pm.expect(property.title).to.eql(requestData.title);\r",
-                  "  pm.expect(property.description).to.eql(requestData.description);\r",
-                  "  pm.expect(property.location).to.eql(requestData.location);\r",
-                  "  pm.expect(property.pricePerNight).to.eql(requestData.pricePerNight);\r",
-                  "  pm.expect(property.bedroomCount).to.eql(requestData.bedroomCount);\r",
-                  "  pm.expect(property.bathRoomCount).to.eql(requestData.bathRoomCount);\r",
-                  "  pm.expect(property.maxGuestCount).to.eql(requestData.maxGuestCount);\r",
-                  "});\r",
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{hostToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"hostId\": \"f1234567-89ab-cdef-0123-456789abcdef\",\r\n    \"title\": \"Stylish Studio in City Center\",\r\n    \"description\": \"Compact and modern studio ideal for solo travelers or couples.\",\r\n    \"location\": \"Vienna, Austria\",\r\n    \"pricePerNight\": \"105\",\r\n    \"bedroomCount\": 1,\r\n    \"bathRoomCount\": 1,\r\n    \"maxGuestCount\": 2\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/properties",
-              "host": ["{{baseUrl}}"],
-              "path": ["properties"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "UPDATE property",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/properties/:id endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"/properties/:id endpoint should return a response body that is an object\", () => {\r",
-                  "  pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Response should contain a success message\", () => {\r",
-                  "  const jsonData = pm.response.json();\r",
-                  "  pm.expect(jsonData).to.have.property(\"message\");\r",
-                  "  pm.expect(jsonData.message).to.include(\"successfully updated\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Updated property object should contain expected fields\", () => {\r",
-                  "  const property = pm.response.json().property;\r",
-                  "  pm.expect(property).to.have.property(\"id\");\r",
-                  "  pm.expect(property).to.have.property(\"hostId\");\r",
-                  "  pm.expect(property).to.have.property(\"title\");\r",
-                  "  pm.expect(property).to.have.property(\"description\");\r",
-                  "  pm.expect(property).to.have.property(\"location\");\r",
-                  "  pm.expect(property).to.have.property(\"pricePerNight\");\r",
-                  "  pm.expect(property).to.have.property(\"bedroomCount\");\r",
-                  "  pm.expect(property).to.have.property(\"bathRoomCount\");\r",
-                  "  pm.expect(property).to.have.property(\"maxGuestCount\");\r",
-                  "  pm.expect(property).to.have.property(\"rating\");\r",
-                  "});\r",
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{hostToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"pricePerNight\": \"1000\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/properties/a9876543-21dc-4321-ba98-fedcba098765",
-              "host": ["{{baseUrl}}"],
-              "path": ["properties", "a9876543-21dc-4321-ba98-fedcba098765"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "DELETE property",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/properties/:id endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"/properties/:id endpoint should return a response body that is an object\", () => {\r",
-                  "  pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Response should contain a success message\", () => {\r",
-                  "  const jsonData = pm.response.json();\r",
-                  "  pm.expect(jsonData).to.have.property(\"message\");\r",
-                  "  pm.expect(jsonData.message).to.include(\"successfully deleted\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Response should show deleted property object with expected fields\", () => {\r",
-                  "  const property = pm.response.json().property;\r",
-                  "  pm.expect(property).to.have.property(\"id\");\r",
-                  "  pm.expect(property).to.have.property(\"hostId\");\r",
-                  "  pm.expect(property).to.have.property(\"title\");\r",
-                  "  pm.expect(property).to.have.property(\"description\");\r",
-                  "  pm.expect(property).to.have.property(\"location\");\r",
-                  "  pm.expect(property).to.have.property(\"pricePerNight\");\r",
-                  "  pm.expect(property).to.have.property(\"bedroomCount\");\r",
-                  "  pm.expect(property).to.have.property(\"bathRoomCount\");\r",
-                  "  pm.expect(property).to.have.property(\"maxGuestCount\");\r",
-                  "  pm.expect(property).to.have.property(\"rating\");\r",
-                  "});\r",
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{hostToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
-            "url": {
-              "raw": "{{baseUrl}}/properties/1a61ef52-17fb-4077-8470-a1fe96b43640",
-              "host": ["{{baseUrl}}"],
-              "path": ["properties", "1a61ef52-17fb-4077-8470-a1fe96b43640"]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "reviews (happy)",
-      "item": [
-        {
-          "name": "GET reviews",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/reviews endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\r",
-                  "  \"/reviews endpoint should return a response body that is an array\",\r",
-                  "  () => {\r",
-                  "    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
-                  "  }\r",
-                  ");"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/reviews",
-              "host": ["{{baseUrl}}"],
-              "path": ["reviews"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GET review by id",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/reviews/:id endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"/reviews/:id endpoint should return a response body that is an object\", () => {\r",
-                  "  pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Review object should contain expected fields\", () => {\r",
-                  "  const review = pm.response.json();\r",
-                  "  pm.expect(review).to.have.property(\"id\");\r",
-                  "  pm.expect(review).to.have.property(\"userId\");\r",
-                  "  pm.expect(review).to.have.property(\"propertyId\");\r",
-                  "  pm.expect(review).to.have.property(\"rating\");\r",
-                  "  pm.expect(review).to.have.property(\"comment\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Returned review should have the correct ID\", () => {\r",
-                  "  const review = pm.response.json();\r",
-                  "  const expectedId = pm.request.url.path[1];\r",
-                  "  pm.expect(review.id).to.eql(expectedId);\r",
-                  "});\r",
-                  "\r",
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/reviews/g7890123-45cd-ef01-2345-6789abcdef01",
-              "host": ["{{baseUrl}}"],
-              "path": ["reviews", "g7890123-45cd-ef01-2345-6789abcdef01"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "CREATE review",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/reviews endpoint should return 201 Created status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(201);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"/reviews endpoint should return a response body that is an object\", () => {\r",
-                  "  pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Created review object should contain expected fields\", () => {\r",
-                  "  const review = pm.response.json();\r",
-                  "  pm.expect(review).to.have.property(\"id\");\r",
-                  "  pm.expect(review).to.have.property(\"userId\");\r",
-                  "  pm.expect(review).to.have.property(\"propertyId\");\r",
-                  "  pm.expect(review).to.have.property(\"rating\");\r",
-                  "  pm.expect(review).to.have.property(\"comment\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Returned review should match submitted data\", () => {\r",
-                  "  const review = pm.response.json();\r",
-                  "  const requestData = JSON.parse(pm.request.body.raw);\r",
-                  "  pm.expect(review.userId).to.eql(requestData.userId);\r",
-                  "  pm.expect(review.propertyId).to.eql(requestData.propertyId);\r",
-                  "  pm.expect(review.rating).to.eql(requestData.rating);\r",
-                  "  pm.expect(review.comment).to.eql(requestData.comment);\r",
-                  "});\r",
-                  "\r",
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{userToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"userId\": \"a1234567-89ab-cdef-0123-456789abcdef\",\r\n    \"propertyId\": \"i1234567-89f0-1234-5678-9abcdef01234\",\r\n    \"rating\": 4,\r\n    \"comment\": \"Great amenities and comfortable bed, but check-in was a bit confusing.\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/reviews",
-              "host": ["{{baseUrl}}"],
-              "path": ["reviews"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "UPDATE review",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/reviews/:id endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"/reviews/:id endpoint should return a response body that is an object\", () => {\r",
-                  "  pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Response should contain a success message\", () => {\r",
-                  "  const jsonData = pm.response.json();\r",
-                  "  pm.expect(jsonData).to.have.property(\"message\");\r",
-                  "  pm.expect(jsonData.message).to.include(\"successfully updated\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Updated review object should contain expected fields\", () => {\r",
-                  "  const review = pm.response.json().review;\r",
-                  "  pm.expect(review).to.have.property(\"id\");\r",
-                  "  pm.expect(review).to.have.property(\"userId\");\r",
-                  "  pm.expect(review).to.have.property(\"propertyId\");\r",
-                  "  pm.expect(review).to.have.property(\"rating\");\r",
-                  "  pm.expect(review).to.have.property(\"comment\");\r",
-                  "});\r",
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{userToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"rating\": 3\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/reviews/a9310182-e2e4-435c-af88-e84233a508fe",
-              "host": ["{{baseUrl}}"],
-              "path": ["reviews", "a9310182-e2e4-435c-af88-e84233a508fe"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "DELETE review",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/reviews/:id endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"/reviews/:id endpoint should return a response body that is an object\", () => {\r",
-                  "  pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Response should contain a success message\", () => {\r",
-                  "  const jsonData = pm.response.json();\r",
-                  "  pm.expect(jsonData).to.have.property(\"message\");\r",
-                  "  pm.expect(jsonData.message).to.include(\"successfully deleted\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Response should show deleted review object with expected fields\", () => {\r",
-                  "  const review = pm.response.json().review;\r",
-                  "  pm.expect(review).to.have.property(\"id\");\r",
-                  "  pm.expect(review).to.have.property(\"userId\");\r",
-                  "  pm.expect(review).to.have.property(\"propertyId\");\r",
-                  "  pm.expect(review).to.have.property(\"rating\");\r",
-                  "  pm.expect(review).to.have.property(\"comment\");\r",
-                  "});\r",
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{userToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": ""
-            },
-            "url": {
-              "raw": "{{baseUrl}}/reviews/i9012345-67ef-0123-4567-89abcdef0123",
-              "host": ["{{baseUrl}}"],
-              "path": ["reviews", "i9012345-67ef-0123-4567-89abcdef0123"]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "login (happy)",
-      "item": [
-        {
-          "name": "POST user login",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/userlogin endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"/userlogin endpoint should return a response body that is an object\", () => {\r",
-                  "  pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Response should contain a success message\", () => {\r",
-                  "  const jsonData = pm.response.json();\r",
-                  "  pm.expect(jsonData.message).to.include(\"Successfully logged in\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Response should contain a valid token\", () => {\r",
-                  "  const token = pm.response.json().token;\r",
-                  "  pm.expect(token).to.be.a(\"string\");\r",
-                  "  pm.expect(token.length).to.be.greaterThan(32);\r",
-                  "});\r",
-                  "\r",
-                  "\r",
-                  "\r",
-                  ""
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"username\": \"nparma\",\r\n    \"password\": \"12345\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/userlogin",
-              "host": ["{{baseUrl}}"],
-              "path": ["userlogin"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "POST host login",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"/hostlogin endpoint should return 200 OK status code\", () => {\r",
-                  "  pm.expect(pm.response.code).to.equal(200);\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"/hostlogin endpoint should return a response body that is an object\", () => {\r",
-                  "  pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Response should contain a success message\", () => {\r",
-                  "  const jsonData = pm.response.json();\r",
-                  "  pm.expect(jsonData.message).to.include(\"Successfully logged in\");\r",
-                  "});\r",
-                  "\r",
-                  "pm.test(\"Response should contain a valid token\", () => {\r",
-                  "  const token = pm.response.json().token;\r",
-                  "  pm.expect(token).to.be.a(\"string\");\r",
-                  "  pm.expect(token.length).to.be.greaterThan(32);\r",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{hostToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"username\": \"johnDoe\",\r\n    \"password\": \"johnDoe123\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/hostlogin",
-              "host": ["{{baseUrl}}"],
-              "path": ["hostlogin"]
-            }
-          },
-          "response": []
-        }
-      ]
-    }
-  ]
+	"info": {
+		"_postman_id": "8e2ed9fb-996f-49cf-9de7-1a7430c875f5",
+		"name": "bookings-api-happy-paths",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44762698",
+		"_collection_link": "https://nesli-4153839.postman.co/workspace/bookings-api~b58e3dd0-b346-47ca-9003-e1931f7dbb99/collection/44762698-8e2ed9fb-996f-49cf-9de7-1a7430c875f5?action=share&source=collection_link&creator=44762698"
+	},
+	"item": [
+		{
+			"name": "users (happy)",
+			"item": [
+				{
+					"name": "GET users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/users endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\r",
+									"  \"/users endpoint should return a response body that is an array\",\r",
+									"  () => {\r",
+									"    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+									"  }\r",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET user by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/users/:id endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\r",
+									"  \"/users/:id endpoint should return a response body that is an object\",\r",
+									"  () => {\r",
+									"    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"  }\r",
+									");\r",
+									"\r",
+									"pm.test(\"User object should contain expected fields\", () => {\r",
+									"  const user = pm.response.json();\r",
+									"  pm.expect(user).to.be.an(\"object\");\r",
+									"  pm.expect(user).to.have.property(\"id\");\r",
+									"  pm.expect(user).to.have.property(\"name\");\r",
+									"  pm.expect(user).to.have.property(\"email\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Returned user should have the correct ID\", () => {\r",
+									"  const user = pm.response.json();\r",
+									"  const expectedId = pm.request.url.path[1];\r",
+									"  pm.expect(user.id).to.eql(expectedId);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/a1234567-89ab-cdef-0123-456789abcdef",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"a1234567-89ab-cdef-0123-456789abcdef"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET user by email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/users?email= endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"/users?email= endpoint should return an array\", () => {\r",
+									"  const response = pm.response.json();\r",
+									"  pm.expect(response).to.be.an(\"array\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response array should contain exactly one user object\", () => {\r",
+									"  const response = pm.response.json();\r",
+									"  pm.expect(response.length).to.equal(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"User object should contain expected fields\", () => {\r",
+									"  const user = pm.response.json()[0];\r",
+									"  pm.expect(user).to.have.property(\"id\");\r",
+									"  pm.expect(user).to.have.property(\"username\");\r",
+									"  pm.expect(user).to.have.property(\"name\");\r",
+									"  pm.expect(user).to.have.property(\"email\");\r",
+									"  pm.expect(user).to.have.property(\"phoneNumber\");\r",
+									"  pm.expect(user).to.have.property(\"pictureUrl\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Returned user should have the queried email\", () => {\r",
+									"  const user = pm.response.json()[0];\r",
+									"  const expectedEmail = pm.request.url.query.get(\"email\");\r",
+									"  pm.expect(user.email).to.eql(expectedEmail);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users?email=johndoe@example.com",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "johndoe@example.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET user by username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/users?=username endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"/users?=username endpoint should return an array\", () => {\r",
+									"  const response = pm.response.json();\r",
+									"  pm.expect(response).to.be.an(\"array\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response array should contain exactly one user object\", () => {\r",
+									"  const response = pm.response.json();\r",
+									"  pm.expect(response.length).to.equal(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"User object should contain expected fields\", () => {\r",
+									"  const user = pm.response.json()[0];\r",
+									"  pm.expect(user).to.have.property(\"id\");\r",
+									"  pm.expect(user).to.have.property(\"username\");\r",
+									"  pm.expect(user).to.have.property(\"name\");\r",
+									"  pm.expect(user).to.have.property(\"email\");\r",
+									"  pm.expect(user).to.have.property(\"phoneNumber\");\r",
+									"  pm.expect(user).to.have.property(\"pictureUrl\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Returned user should have the correct username\", () => {\r",
+									"  const user = pm.response.json()[0];\r",
+									"  const expectedUsername = pm.request.url.query.get(\"username\");\r",
+									"  pm.expect(user.username).to.eql(expectedUsername);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users?username=jdoe",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "jdoe"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/users endpoint should return 201 Created status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\r",
+									"  \"/users endpoint should return a response body that is an object\",\r",
+									"  () => {\r",
+									"    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"  }\r",
+									");\r",
+									"\r",
+									"pm.test(\"Created user object should contain expected fields\", () => {\r",
+									"  const user = pm.response.json();\r",
+									"  pm.expect(user).to.have.property(\"id\");\r",
+									"  pm.expect(user).to.have.property(\"username\");\r",
+									"  pm.expect(user).to.have.property(\"password\");\r",
+									"  pm.expect(user).to.have.property(\"name\");\r",
+									"  pm.expect(user).to.have.property(\"email\");\r",
+									"  pm.expect(user).to.have.property(\"phoneNumber\");\r",
+									"  pm.expect(user).to.have.property(\"pictureUrl\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Returned user should match submitted data\", () => {\r",
+									"  const user = pm.response.json();\r",
+									"  const requestData = JSON.parse(pm.request.body.raw);\r",
+									"  pm.expect(user.username).to.eql(requestData.username);\r",
+									"  pm.expect(user.password).to.eql(requestData.password);\r",
+									"  pm.expect(user.name).to.eql(requestData.name);\r",
+									"  pm.expect(user.email).to.eql(requestData.email);\r",
+									"  pm.expect(user.phoneNumber).to.eql(requestData.phoneNumber);\r",
+									"  pm.expect(user.pictureUrl).to.eql(requestData.pictureUrl);\r",
+									"});\r",
+									"\r",
+									"const user = pm.response.json();\r",
+									"const requestBody = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"pm.environment.set(\"userId\", user.id);\r",
+									"pm.environment.set(\"username\", requestBody.username);\r",
+									"pm.environment.set(\"password\", requestBody.password);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"nparma\",\r\n    \"password\": \"12345\",\r\n    \"name\": \"Nesli Parma\",\r\n    \"email\": \"nparmaksz@example.com\",\r\n    \"phoneNumber\": \"123-456-7890\",\r\n    \"pictureUrl\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/users/:id endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\r",
+									"  \"/users/:id endpoint should return a response body that is an object\",\r",
+									"  () => {\r",
+									"    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"  }\r",
+									");\r",
+									"\r",
+									"pm.test(\"Response should contain a success message\", () => {\r",
+									"  const jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData).to.have.property(\"message\");\r",
+									"  pm.expect(jsonData.message).to.include(\"successfully updated\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should contain an updated user object with expected fields\", () => {\r",
+									"  const user = pm.response.json().user;\r",
+									"  pm.expect(user).to.have.property(\"id\");\r",
+									"  pm.expect(user).to.have.property(\"username\");\r",
+									"  pm.expect(user).to.have.property(\"password\");\r",
+									"  pm.expect(user).to.have.property(\"name\");\r",
+									"  pm.expect(user).to.have.property(\"email\");\r",
+									"  pm.expect(user).to.have.property(\"phoneNumber\");\r",
+									"  pm.expect(user).to.have.property(\"pictureUrl\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"annasimpson@email.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/e5678901-23f0-1234-5678-9abcdef01234",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"e5678901-23f0-1234-5678-9abcdef01234"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/users/:id endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\r",
+									"  \"/users/:id endpoint should return a response body that is an object\",\r",
+									"  () => {\r",
+									"    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"  }\r",
+									");\r",
+									"\r",
+									"pm.test(\"Response should contain a success message\", () => {\r",
+									"  const jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData).to.have.property(\"message\");\r",
+									"  pm.expect(jsonData.message).to.include(\"successfully deleted\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should show deleted user object with expected fields\", () => {\r",
+									"  const user = pm.response.json().user;\r",
+									"  pm.expect(user).to.have.property(\"id\");\r",
+									"  pm.expect(user).to.have.property(\"username\");\r",
+									"  pm.expect(user).to.have.property(\"password\");\r",
+									"  pm.expect(user).to.have.property(\"name\");\r",
+									"  pm.expect(user).to.have.property(\"email\");\r",
+									"  pm.expect(user).to.have.property(\"phoneNumber\");\r",
+									"  pm.expect(user).to.have.property(\"pictureUrl\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/{{userId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "hosts (happy)",
+			"item": [
+				{
+					"name": "GET hosts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/hosts endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\r",
+									"  \"/hosts endpoint should return a response body that is an array\",\r",
+									"  () => {\r",
+									"    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+									"  }\r",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"nparma\",\r\n    \"password\": \"12345\",\r\n    \"name\": \"Nesli Parma\",\r\n    \"email\": \"nparma@example.com\",\r\n    \"phoneNumber\": \"123-456-7891\",\r\n    \"pictureUrl\": null\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hosts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hosts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET host by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/hosts/:id endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\r",
+									"  \"/hosts/:id endpoint should return a response body that is an object\",\r",
+									"  () => {\r",
+									"    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"  }\r",
+									");\r",
+									"\r",
+									"pm.test(\"Host object should contain expected fields\", () => {\r",
+									"  const host = pm.response.json();\r",
+									"  pm.expect(host).to.be.an(\"object\");\r",
+									"  pm.expect(host).to.have.property(\"id\");\r",
+									"  pm.expect(host).to.have.property(\"username\");\r",
+									"  pm.expect(host).to.have.property(\"name\");\r",
+									"  pm.expect(host).to.have.property(\"email\");\r",
+									"  pm.expect(host).to.have.property(\"phoneNumber\");\r",
+									"  pm.expect(host).to.have.property(\"profilePicture\");\r",
+									"  pm.expect(host).to.have.property(\"aboutMe\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Returned host should have the correct ID\", () => {\r",
+									"  const host = pm.response.json();\r",
+									"  const expectedId = pm.request.url.path[1];\r",
+									"  pm.expect(host.id).to.eql(expectedId);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"nparma\",\r\n    \"password\": \"12345\",\r\n    \"name\": \"Nesli Parma\",\r\n    \"email\": \"nparma@example.com\",\r\n    \"phoneNumber\": \"123-456-7891\",\r\n    \"pictureUrl\": null\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hosts/f1234567-89ab-cdef-0123-456789abcdef",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hosts",
+								"f1234567-89ab-cdef-0123-456789abcdef"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET host by name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/host?name= endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"/host?name= endpoint should return an array\", () => {\r",
+									"  const response = pm.response.json();\r",
+									"  pm.expect(response).to.be.an(\"array\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response array should contain exactly one host object\", () => {\r",
+									"  const response = pm.response.json();\r",
+									"  pm.expect(response.length).to.equal(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Host object should contain expected fields\", () => {\r",
+									"  const host = pm.response.json()[0];\r",
+									"  pm.expect(host).to.have.property(\"id\");\r",
+									"  pm.expect(host).to.have.property(\"username\");\r",
+									"  pm.expect(host).to.have.property(\"name\");\r",
+									"  pm.expect(host).to.have.property(\"email\");\r",
+									"  pm.expect(host).to.have.property(\"phoneNumber\");\r",
+									"  pm.expect(host).to.have.property(\"profilePicture\");\r",
+									"  pm.expect(host).to.have.property(\"aboutMe\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Returned host should have the correct name\", () => {\r",
+									"  const host = pm.response.json()[0];\r",
+									"  const expectedName = decodeURIComponent(pm.request.url.query.get(\"name\"));\r",
+									"  pm.expect(host.name).to.eql(expectedName);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"nparma\",\r\n    \"password\": \"12345\",\r\n    \"name\": \"Nesli Parma\",\r\n    \"email\": \"nparma@example.com\",\r\n    \"phoneNumber\": \"123-456-7891\",\r\n    \"pictureUrl\": null\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hosts?name=John Doe",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hosts"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "John Doe"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE host",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/hosts endpoint should return 201 Created status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\r",
+									"  \"/hosts endpoint should return a response body that is an object\",\r",
+									"  () => {\r",
+									"    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"  }\r",
+									");\r",
+									"\r",
+									"pm.test(\"Created host object should contain expected fields\", () => {\r",
+									"  const host = pm.response.json();\r",
+									"  pm.expect(host).to.have.property(\"id\");\r",
+									"  pm.expect(host).to.have.property(\"username\");\r",
+									"  pm.expect(host).to.have.property(\"password\");\r",
+									"  pm.expect(host).to.have.property(\"name\");\r",
+									"  pm.expect(host).to.have.property(\"email\");\r",
+									"  pm.expect(host).to.have.property(\"phoneNumber\");\r",
+									"  pm.expect(host).to.have.property(\"profilePicture\");\r",
+									"  pm.expect(host).to.have.property(\"aboutMe\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Returned host should match submitted data\", () => {\r",
+									"  const host = pm.response.json();\r",
+									"  const requestData = JSON.parse(pm.request.body.raw);\r",
+									"  pm.expect(host.username).to.eql(requestData.username);\r",
+									"  pm.expect(host.password).to.eql(requestData.password);\r",
+									"  pm.expect(host.name).to.eql(requestData.name);\r",
+									"  pm.expect(host.email).to.eql(requestData.email);\r",
+									"  pm.expect(host.phoneNumber).to.eql(requestData.phoneNumber);\r",
+									"  pm.expect(host.profilePicture).to.eql(requestData.profilePicture);\r",
+									"  pm.expect(host.aboutMe).to.eql(requestData.aboutMe);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"lisa\",\r\n  \"password\": \"pass4321\",\r\n  \"name\": \"Lisa Müller\",\r\n  \"email\": \"lisa@email.com\",\r\n  \"phoneNumber\": \"+491234567890\",\r\n  \"profilePicture\": \"https://wincacademy.github.io/webpages/media/lisa.jpeg\",\r\n  \"aboutMe\": \"Designer turned developer, lover of clean code and strong coffee.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hosts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hosts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE host",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/hosts/:id endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\r",
+									"  \"/hosts/:id endpoint should return a response body that is an object\",\r",
+									"  () => {\r",
+									"    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"  }\r",
+									");\r",
+									"\r",
+									"pm.test(\"Response should contain a success message\", () => {\r",
+									"  const jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData).to.have.property(\"message\");\r",
+									"  pm.expect(jsonData.message).to.include(\"successfully updated\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should contain an updated host object with expected fields\", () => {\r",
+									"  const host = pm.response.json().host;\r",
+									"  pm.expect(host).to.have.property(\"id\");\r",
+									"  pm.expect(host).to.have.property(\"username\");\r",
+									"  pm.expect(host).to.have.property(\"password\");\r",
+									"  pm.expect(host).to.have.property(\"name\");\r",
+									"  pm.expect(host).to.have.property(\"email\");\r",
+									"  pm.expect(host).to.have.property(\"phoneNumber\");\r",
+									"  pm.expect(host).to.have.property(\"profilePicture\");\r",
+									"  pm.expect(host).to.have.property(\"aboutMe\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{hostToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"7654321\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hosts/f1234567-89ab-cdef-0123-456789abcdef",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hosts",
+								"f1234567-89ab-cdef-0123-456789abcdef"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE host",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/hosts/:id endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\r",
+									"  \"/hosts/:id endpoint should return a response body that is an object\",\r",
+									"  () => {\r",
+									"    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"  }\r",
+									");\r",
+									"\r",
+									"pm.test(\"Response should contain a success message\", () => {\r",
+									"  const jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData).to.have.property(\"message\");\r",
+									"  pm.expect(jsonData.message).to.include(\"successfully deleted\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should show deleted host object with expected fields\", () => {\r",
+									"  const host = pm.response.json().host;\r",
+									"  pm.expect(host).to.have.property(\"id\");\r",
+									"  pm.expect(host).to.have.property(\"username\");\r",
+									"  pm.expect(host).to.have.property(\"password\");\r",
+									"  pm.expect(host).to.have.property(\"name\");\r",
+									"  pm.expect(host).to.have.property(\"email\");\r",
+									"  pm.expect(host).to.have.property(\"phoneNumber\");\r",
+									"  pm.expect(host).to.have.property(\"profilePicture\");\r",
+									"  pm.expect(host).to.have.property(\"aboutMe\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{hostToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hosts/81b18b22-ed4c-45aa-9cc0-4b7edc793e79",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hosts",
+								"81b18b22-ed4c-45aa-9cc0-4b7edc793e79"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "bookings (happy)",
+			"item": [
+				{
+					"name": "GET bookings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/bookings endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\r",
+									"  \"/bookings endpoint should return a response body that is an array\",\r",
+									"  () => {\r",
+									"    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+									"  }\r",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/bookings",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET booking by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/bookings/:id endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\r",
+									"  \"/bookings/:id endpoint should return a response body that is an object\",\r",
+									"  () => {\r",
+									"    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"  }\r",
+									");\r",
+									"\r",
+									"pm.test(\"booking object should contain expected fields\", () => {\r",
+									"  const booking = pm.response.json();\r",
+									"  pm.expect(booking).to.be.an(\"object\");\r",
+									"  pm.expect(booking).to.have.property(\"id\");\r",
+									"  pm.expect(booking).to.have.property(\"userId\");\r",
+									"  pm.expect(booking).to.have.property(\"propertyId\");\r",
+									"  pm.expect(booking).to.have.property(\"checkinDate\");\r",
+									"  pm.expect(booking).to.have.property(\"checkoutDate\");\r",
+									"  pm.expect(booking).to.have.property(\"numberOfGuests\");\r",
+									"  pm.expect(booking).to.have.property(\"totalPrice\");\r",
+									"  pm.expect(booking).to.have.property(\"bookingStatus\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Returned booking should have the correct ID\", () => {\r",
+									"  const booking = pm.response.json();\r",
+									"  const expectedId = pm.request.url.path[1];\r",
+									"  pm.expect(booking.id).to.eql(expectedId);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bookings/f0123456-78ab-cdef-0123-456789abcdef",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bookings",
+								"f0123456-78ab-cdef-0123-456789abcdef"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET booking by user id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/bookings?userId= endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"/bookings?userId= endpoint should return an array\", () => {\r",
+									"  const response = pm.response.json();\r",
+									"  pm.expect(response).to.be.an(\"array\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Each booking in the response should have expected fields\", () => {\r",
+									"  const bookings = pm.response.json();\r",
+									"  bookings.forEach((booking) => {\r",
+									"    pm.expect(booking).to.have.property(\"id\");\r",
+									"    pm.expect(booking).to.have.property(\"userId\");\r",
+									"    pm.expect(booking).to.have.property(\"propertyId\");\r",
+									"    pm.expect(booking).to.have.property(\"checkinDate\");\r",
+									"    pm.expect(booking).to.have.property(\"checkoutDate\");\r",
+									"    pm.expect(booking).to.have.property(\"numberOfGuests\");\r",
+									"    pm.expect(booking).to.have.property(\"totalPrice\");\r",
+									"    pm.expect(booking).to.have.property(\"bookingStatus\");\r",
+									"  });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"All returned bookings should have the correct userId\", () => {\r",
+									"  const bookings = pm.response.json();\r",
+									"  const expectedUserId = decodeURIComponent(pm.request.url.query.get(\"userId\"));\r",
+									"  bookings.forEach((booking) => {\r",
+									"    pm.expect(booking.userId).to.eql(expectedUserId);\r",
+									"  });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response can be an empty array if user has no bookings\", () => {\r",
+									"  const bookings = pm.response.json();\r",
+									"  pm.expect(bookings).to.be.an(\"array\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bookings/?userId=a1234567-89ab-cdef-0123-456789abcdef",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bookings",
+								""
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "a1234567-89ab-cdef-0123-456789abcdef"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/bookings endpoint should return 201 Created status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\r",
+									"  \"/bookings endpoint should return a response body that is an object\",\r",
+									"  () => {\r",
+									"    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"  }\r",
+									");\r",
+									"\r",
+									"pm.test(\"Created booking object should contain expected fields\", () => {\r",
+									"  const booking = pm.response.json();\r",
+									"   pm.expect(booking).to.have.property(\"id\");\r",
+									"    pm.expect(booking).to.have.property(\"userId\");\r",
+									"    pm.expect(booking).to.have.property(\"propertyId\");\r",
+									"    pm.expect(booking).to.have.property(\"checkinDate\");\r",
+									"    pm.expect(booking).to.have.property(\"checkoutDate\");\r",
+									"    pm.expect(booking).to.have.property(\"numberOfGuests\");\r",
+									"    pm.expect(booking).to.have.property(\"totalPrice\");\r",
+									"    pm.expect(booking).to.have.property(\"bookingStatus\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Returned booking should match submitted data\", () => {\r",
+									"  const booking = pm.response.json();\r",
+									"  const requestData = JSON.parse(pm.request.body.raw);\r",
+									"  pm.expect(booking.userId).to.eql(requestData.userId);\r",
+									"  pm.expect(booking.propertyId).to.eql(requestData.propertyId);\r",
+									"  pm.expect(booking.checkinDate).to.eql(requestData.checkinDate);\r",
+									"  pm.expect(booking.checkoutDate).to.eql(requestData.checkoutDate);\r",
+									"  pm.expect(booking.numberOfGuests).to.eql(requestData.numberOfGuests);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Initial booking status should be 'pending'\", () => {\r",
+									"  const requestData = JSON.parse(pm.request.body.raw);\r",
+									"  if (!(\"bookingStatus\" in requestData)) {\r",
+									"    pm.expect(pm.response.json().bookingStatus).to.eql(\"pending\");\r",
+									"  }\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"a1234567-89ab-cdef-0123-456789abcdef\",\r\n    \"propertyId\": \"a9876543-21dc-4321-ba98-fedcba098765\",\r\n    \"checkinDate\": \"2025-09-05T14:00:00.000Z\",\r\n    \"checkoutDate\": \"2025-09-10T10:00:00.000Z\",\r\n    \"numberOfGuests\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bookings",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/bookings/:id endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\r",
+									"  \"/bookings/:id endpoint should return a response body that is an object\",\r",
+									"  () => {\r",
+									"    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"  }\r",
+									");\r",
+									"\r",
+									"pm.test(\"Response should contain a success message\", () => {\r",
+									"  const jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData).to.have.property(\"message\");\r",
+									"  pm.expect(jsonData.message).to.include(\"successfully updated\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Updated booking object should contain expected fields\", () => {\r",
+									"  const booking = pm.response.json().booking;\r",
+									"  pm.expect(booking).to.have.property(\"id\");\r",
+									"  pm.expect(booking).to.have.property(\"userId\");\r",
+									"  pm.expect(booking).to.have.property(\"propertyId\");\r",
+									"  pm.expect(booking).to.have.property(\"checkinDate\");\r",
+									"  pm.expect(booking).to.have.property(\"checkoutDate\");\r",
+									"  pm.expect(booking).to.have.property(\"numberOfGuests\");\r",
+									"  pm.expect(booking).to.have.property(\"totalPrice\");\r",
+									"  pm.expect(booking).to.have.property(\"bookingStatus\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"numberOfGuests\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bookings/e38a6404-a1bb-400c-990a-2d0caa4d1cc0",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bookings",
+								"e38a6404-a1bb-400c-990a-2d0caa4d1cc0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/bookings/:id endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\r",
+									"  \"/bookings/:id endpoint should return a response body that is an object\",\r",
+									"  () => {\r",
+									"    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"  }\r",
+									");\r",
+									"\r",
+									"pm.test(\"Response should contain a success message\", () => {\r",
+									"  const jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData).to.have.property(\"message\");\r",
+									"  pm.expect(jsonData.message).to.include(\"successfully deleted\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should show deleted booking object with expected fields\", () => {\r",
+									"  const booking = pm.response.json().booking;\r",
+									"  pm.expect(booking).to.have.property(\"id\");\r",
+									"  pm.expect(booking).to.have.property(\"userId\");\r",
+									"  pm.expect(booking).to.have.property(\"propertyId\");\r",
+									"  pm.expect(booking).to.have.property(\"checkinDate\");\r",
+									"  pm.expect(booking).to.have.property(\"checkoutDate\");\r",
+									"  pm.expect(booking).to.have.property(\"numberOfGuests\");\r",
+									"  pm.expect(booking).to.have.property(\"totalPrice\");\r",
+									"  pm.expect(booking).to.have.property(\"bookingStatus\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bookings/b4e1cf3c-fd25-451b-95af-e9b8310ba310",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bookings",
+								"b4e1cf3c-fd25-451b-95af-e9b8310ba310"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "properties (happy)",
+			"item": [
+				{
+					"name": "GET properties",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/properties endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\r",
+									"  \"/properties endpoint should return a response body that is an array\",\r",
+									"  () => {\r",
+									"    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+									"  }\r",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET property by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/properties/:id endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\r",
+									"  \"/properties/:id endpoint should return a response body that is an object\",\r",
+									"  () => {\r",
+									"    pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"  }\r",
+									");\r",
+									"\r",
+									"pm.test(\"property object should contain expected fields\", () => {\r",
+									"  const property = pm.response.json();\r",
+									"  pm.expect(property).to.be.an(\"object\");\r",
+									"  pm.expect(property).to.have.property(\"id\");\r",
+									"  pm.expect(property).to.have.property(\"hostId\");\r",
+									"  pm.expect(property).to.have.property(\"title\");\r",
+									"  pm.expect(property).to.have.property(\"description\");\r",
+									"  pm.expect(property).to.have.property(\"location\");\r",
+									"  pm.expect(property).to.have.property(\"pricePerNight\");\r",
+									"  pm.expect(property).to.have.property(\"bedroomCount\");\r",
+									"  pm.expect(property).to.have.property(\"bathRoomCount\");\r",
+									"  pm.expect(property).to.have.property(\"maxGuestCount\");\r",
+									"  pm.expect(property).to.have.property(\"rating\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Returned property should have the correct ID\", () => {\r",
+									"  const property = pm.response.json();\r",
+									"  const expectedId = pm.request.url.path[1];\r",
+									"  pm.expect(property.id).to.eql(expectedId);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties/g9012345-67ef-0123-4567-89abcdef0123",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"g9012345-67ef-0123-4567-89abcdef0123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET property by location",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/properties?location= endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"/properties?location= endpoint should return an array\", () => {\r",
+									"  const response = pm.response.json();\r",
+									"  pm.expect(response).to.be.an(\"array\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Each property in the response should have expected fields\", () => {\r",
+									"  const properties = pm.response.json();\r",
+									"  properties.forEach((property) => {\r",
+									"    pm.expect(property).to.be.an(\"object\");\r",
+									"  pm.expect(property).to.have.property(\"id\");\r",
+									"  pm.expect(property).to.have.property(\"hostId\");\r",
+									"  pm.expect(property).to.have.property(\"title\");\r",
+									"  pm.expect(property).to.have.property(\"description\");\r",
+									"  pm.expect(property).to.have.property(\"location\");\r",
+									"  pm.expect(property).to.have.property(\"pricePerNight\");\r",
+									"  pm.expect(property).to.have.property(\"bedroomCount\");\r",
+									"  pm.expect(property).to.have.property(\"bathRoomCount\");\r",
+									"  pm.expect(property).to.have.property(\"maxGuestCount\");\r",
+									"  pm.expect(property).to.have.property(\"rating\");\r",
+									"  });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"All returned properties should include the searched location\", () => {\r",
+									"  const properties = pm.response.json();\r",
+									"  const expectedLocation = decodeURIComponent(pm.request.url.query.get(\"location\")).toLowerCase();\r",
+									"  properties.forEach((property) => {\r",
+									"    pm.expect(property.location.toLowerCase()).to.include(expectedLocation);\r",
+									"  });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response can be an empty array if there are no matching properties\", () => {\r",
+									"  const properties = pm.response.json();\r",
+									"  pm.expect(properties).to.be.an(\"array\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties?location=tahoe",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties"
+							],
+							"query": [
+								{
+									"key": "location",
+									"value": "tahoe"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET property by price",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/properties?pricePerNight= endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"/properties?pricePerNight= endpoint should return an array\", () => {\r",
+									"  const response = pm.response.json();\r",
+									"  pm.expect(response).to.be.an(\"array\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Each property in the response should have expected fields\", () => {\r",
+									"  const properties = pm.response.json();\r",
+									"  properties.forEach((property) => {\r",
+									"    pm.expect(property).to.be.an(\"object\");\r",
+									"  pm.expect(property).to.have.property(\"id\");\r",
+									"  pm.expect(property).to.have.property(\"hostId\");\r",
+									"  pm.expect(property).to.have.property(\"title\");\r",
+									"  pm.expect(property).to.have.property(\"description\");\r",
+									"  pm.expect(property).to.have.property(\"location\");\r",
+									"  pm.expect(property).to.have.property(\"pricePerNight\");\r",
+									"  pm.expect(property).to.have.property(\"bedroomCount\");\r",
+									"  pm.expect(property).to.have.property(\"bathRoomCount\");\r",
+									"  pm.expect(property).to.have.property(\"maxGuestCount\");\r",
+									"  pm.expect(property).to.have.property(\"rating\");\r",
+									"  });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"All returned properties should have pricePerNight less than or equal to expected value\", () => {\r",
+									"  const properties = pm.response.json();\r",
+									"  const maxPrice = Number(pm.request.url.query.get(\"pricePerNight\"));\r",
+									"  properties.forEach((property) => {\r",
+									"    pm.expect(Number(property.pricePerNight)).to.be.at.most(maxPrice);\r",
+									"  });\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response can be an empty array if no properties match\", () => {\r",
+									"  const properties = pm.response.json();\r",
+									"  pm.expect(properties).to.be.an(\"array\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties?pricePerNight=120",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties"
+							],
+							"query": [
+								{
+									"key": "pricePerNight",
+									"value": "120"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE property",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/properties endpoint should return 201 Created status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"/properties endpoint should return a response body that is an object\", () => {\r",
+									"  pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Created property object should contain expected fields\", () => {\r",
+									"  const property = pm.response.json();\r",
+									"  pm.expect(property).to.have.property(\"id\");\r",
+									"  pm.expect(property).to.have.property(\"hostId\");\r",
+									"  pm.expect(property).to.have.property(\"title\");\r",
+									"  pm.expect(property).to.have.property(\"description\");\r",
+									"  pm.expect(property).to.have.property(\"location\");\r",
+									"  pm.expect(property).to.have.property(\"pricePerNight\");\r",
+									"  pm.expect(property).to.have.property(\"bedroomCount\");\r",
+									"  pm.expect(property).to.have.property(\"bathRoomCount\");\r",
+									"  pm.expect(property).to.have.property(\"maxGuestCount\");\r",
+									"  pm.expect(property).to.have.property(\"rating\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Returned property should match submitted data\", () => {\r",
+									"  const property = pm.response.json();\r",
+									"  const requestData = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"  pm.expect(property.hostId).to.eql(requestData.hostId);\r",
+									"  pm.expect(property.title).to.eql(requestData.title);\r",
+									"  pm.expect(property.description).to.eql(requestData.description);\r",
+									"  pm.expect(property.location).to.eql(requestData.location);\r",
+									"  pm.expect(property.pricePerNight).to.eql(requestData.pricePerNight);\r",
+									"  pm.expect(property.bedroomCount).to.eql(requestData.bedroomCount);\r",
+									"  pm.expect(property.bathRoomCount).to.eql(requestData.bathRoomCount);\r",
+									"  pm.expect(property.maxGuestCount).to.eql(requestData.maxGuestCount);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{hostToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"hostId\": \"f1234567-89ab-cdef-0123-456789abcdef\",\r\n    \"title\": \"Stylish Studio in City Center\",\r\n    \"description\": \"Compact and modern studio ideal for solo travelers or couples.\",\r\n    \"location\": \"Vienna, Austria\",\r\n    \"pricePerNight\": \"105\",\r\n    \"bedroomCount\": 1,\r\n    \"bathRoomCount\": 1,\r\n    \"maxGuestCount\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/properties",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE property",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/properties/:id endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"/properties/:id endpoint should return a response body that is an object\", () => {\r",
+									"  pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should contain a success message\", () => {\r",
+									"  const jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData).to.have.property(\"message\");\r",
+									"  pm.expect(jsonData.message).to.include(\"successfully updated\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Updated property object should contain expected fields\", () => {\r",
+									"  const property = pm.response.json().property;\r",
+									"  pm.expect(property).to.have.property(\"id\");\r",
+									"  pm.expect(property).to.have.property(\"hostId\");\r",
+									"  pm.expect(property).to.have.property(\"title\");\r",
+									"  pm.expect(property).to.have.property(\"description\");\r",
+									"  pm.expect(property).to.have.property(\"location\");\r",
+									"  pm.expect(property).to.have.property(\"pricePerNight\");\r",
+									"  pm.expect(property).to.have.property(\"bedroomCount\");\r",
+									"  pm.expect(property).to.have.property(\"bathRoomCount\");\r",
+									"  pm.expect(property).to.have.property(\"maxGuestCount\");\r",
+									"  pm.expect(property).to.have.property(\"rating\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{hostToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pricePerNight\": \"1000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/properties/a9876543-21dc-4321-ba98-fedcba098765",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"a9876543-21dc-4321-ba98-fedcba098765"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE property",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/properties/:id endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"/properties/:id endpoint should return a response body that is an object\", () => {\r",
+									"  pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should contain a success message\", () => {\r",
+									"  const jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData).to.have.property(\"message\");\r",
+									"  pm.expect(jsonData.message).to.include(\"successfully deleted\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should show deleted property object with expected fields\", () => {\r",
+									"  const property = pm.response.json().property;\r",
+									"  pm.expect(property).to.have.property(\"id\");\r",
+									"  pm.expect(property).to.have.property(\"hostId\");\r",
+									"  pm.expect(property).to.have.property(\"title\");\r",
+									"  pm.expect(property).to.have.property(\"description\");\r",
+									"  pm.expect(property).to.have.property(\"location\");\r",
+									"  pm.expect(property).to.have.property(\"pricePerNight\");\r",
+									"  pm.expect(property).to.have.property(\"bedroomCount\");\r",
+									"  pm.expect(property).to.have.property(\"bathRoomCount\");\r",
+									"  pm.expect(property).to.have.property(\"maxGuestCount\");\r",
+									"  pm.expect(property).to.have.property(\"rating\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{hostToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/properties/1a61ef52-17fb-4077-8470-a1fe96b43640",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"1a61ef52-17fb-4077-8470-a1fe96b43640"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "reviews (happy)",
+			"item": [
+				{
+					"name": "GET reviews",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/reviews endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\r",
+									"  \"/reviews endpoint should return a response body that is an array\",\r",
+									"  () => {\r",
+									"    pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+									"  }\r",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reviews",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET review by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/reviews/:id endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"/reviews/:id endpoint should return a response body that is an object\", () => {\r",
+									"  pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Review object should contain expected fields\", () => {\r",
+									"  const review = pm.response.json();\r",
+									"  pm.expect(review).to.have.property(\"id\");\r",
+									"  pm.expect(review).to.have.property(\"userId\");\r",
+									"  pm.expect(review).to.have.property(\"propertyId\");\r",
+									"  pm.expect(review).to.have.property(\"rating\");\r",
+									"  pm.expect(review).to.have.property(\"comment\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Returned review should have the correct ID\", () => {\r",
+									"  const review = pm.response.json();\r",
+									"  const expectedId = pm.request.url.path[1];\r",
+									"  pm.expect(review.id).to.eql(expectedId);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reviews/g7890123-45cd-ef01-2345-6789abcdef01",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reviews",
+								"g7890123-45cd-ef01-2345-6789abcdef01"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE review",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/reviews endpoint should return 201 Created status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"/reviews endpoint should return a response body that is an object\", () => {\r",
+									"  pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Created review object should contain expected fields\", () => {\r",
+									"  const review = pm.response.json();\r",
+									"  pm.expect(review).to.have.property(\"id\");\r",
+									"  pm.expect(review).to.have.property(\"userId\");\r",
+									"  pm.expect(review).to.have.property(\"propertyId\");\r",
+									"  pm.expect(review).to.have.property(\"rating\");\r",
+									"  pm.expect(review).to.have.property(\"comment\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Returned review should match submitted data\", () => {\r",
+									"  const review = pm.response.json();\r",
+									"  const requestData = JSON.parse(pm.request.body.raw);\r",
+									"  pm.expect(review.userId).to.eql(requestData.userId);\r",
+									"  pm.expect(review.propertyId).to.eql(requestData.propertyId);\r",
+									"  pm.expect(review.rating).to.eql(requestData.rating);\r",
+									"  pm.expect(review.comment).to.eql(requestData.comment);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"a1234567-89ab-cdef-0123-456789abcdef\",\r\n    \"propertyId\": \"i1234567-89f0-1234-5678-9abcdef01234\",\r\n    \"rating\": 4,\r\n    \"comment\": \"Great amenities and comfortable bed, but check-in was a bit confusing.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reviews",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE review",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/reviews/:id endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"/reviews/:id endpoint should return a response body that is an object\", () => {\r",
+									"  pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should contain a success message\", () => {\r",
+									"  const jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData).to.have.property(\"message\");\r",
+									"  pm.expect(jsonData.message).to.include(\"successfully updated\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Updated review object should contain expected fields\", () => {\r",
+									"  const review = pm.response.json().review;\r",
+									"  pm.expect(review).to.have.property(\"id\");\r",
+									"  pm.expect(review).to.have.property(\"userId\");\r",
+									"  pm.expect(review).to.have.property(\"propertyId\");\r",
+									"  pm.expect(review).to.have.property(\"rating\");\r",
+									"  pm.expect(review).to.have.property(\"comment\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rating\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reviews/a9310182-e2e4-435c-af88-e84233a508fe",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reviews",
+								"a9310182-e2e4-435c-af88-e84233a508fe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE review",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/reviews/:id endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"/reviews/:id endpoint should return a response body that is an object\", () => {\r",
+									"  pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should contain a success message\", () => {\r",
+									"  const jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData).to.have.property(\"message\");\r",
+									"  pm.expect(jsonData.message).to.include(\"successfully deleted\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should show deleted review object with expected fields\", () => {\r",
+									"  const review = pm.response.json().review;\r",
+									"  pm.expect(review).to.have.property(\"id\");\r",
+									"  pm.expect(review).to.have.property(\"userId\");\r",
+									"  pm.expect(review).to.have.property(\"propertyId\");\r",
+									"  pm.expect(review).to.have.property(\"rating\");\r",
+									"  pm.expect(review).to.have.property(\"comment\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reviews/i9012345-67ef-0123-4567-89abcdef0123",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reviews",
+								"i9012345-67ef-0123-4567-89abcdef0123"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "login (happy)",
+			"item": [
+				{
+					"name": "POST user login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/userlogin endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"/userlogin endpoint should return a response body that is an object\", () => {\r",
+									"  pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should contain a success message\", () => {\r",
+									"  const jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData.message).to.include(\"Successfully logged in\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should contain a valid token\", () => {\r",
+									"  const token = pm.response.json().token;\r",
+									"  pm.expect(token).to.be.a(\"string\");\r",
+									"  pm.expect(token.length).to.be.greaterThan(32);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Login returns token\", () => {\r",
+									"  const jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData).to.have.property(\"token\");\r",
+									"  pm.environment.set(\"token\", jsonData.token);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"{{username}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/userlogin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"userlogin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST host login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/hostlogin endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"/hostlogin endpoint should return a response body that is an object\", () => {\r",
+									"  pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should contain a success message\", () => {\r",
+									"  const jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData.message).to.include(\"Successfully logged in\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should contain a valid token\", () => {\r",
+									"  const token = pm.response.json().token;\r",
+									"  pm.expect(token).to.be.a(\"string\");\r",
+									"  pm.expect(token.length).to.be.greaterThan(32);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{hostToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"johnDoe\",\r\n    \"password\": \"johnDoe123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hostlogin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hostlogin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
 }
