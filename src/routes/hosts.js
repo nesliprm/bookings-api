@@ -6,6 +6,7 @@ import updateHostById from "../services/hosts/updateHostById.js";
 import createHost from "../services/hosts/createHost.js";
 import deleteHostById from "../services/hosts/deleteHostById.js";
 import auth from "../middleware/auth.js";
+import prisma from "../lib/prisma.js";
 
 const router = Router();
 
@@ -13,6 +14,12 @@ router.get("/", async (req, res, next) => {
   const { name } = req.query;
 
   try {
+    if ("name" in req.query && name.trim() === "") {
+      return res
+        .status(400)
+        .json({ message: "Please provide a host name to search." });
+    }
+
     if (name) {
       const hosts = await getHostByName(name);
 
@@ -49,17 +56,47 @@ router.get("/:id", async (req, res, next) => {
 
 router.put("/:id", auth, async (req, res, next) => {
   const { id } = req.params;
-  const {
-    username,
-    password,
-    name,
-    email,
-    phoneNumber,
-    profilePicture,
-    aboutMe,
-  } = req.body;
-
   try {
+    const {
+      username,
+      password,
+      name,
+      email,
+      phoneNumber,
+      profilePicture,
+      aboutMe,
+    } = req.body;
+
+    if (!req.body || Object.keys(req.body).length === 0) {
+      return res.status(400).json({
+        message: "Missing update data — fields cannot be empty.",
+      });
+    }
+
+    const existingHost = await prisma.host.findUnique({
+      where: { id },
+    });
+
+    if (!existingHost) {
+      return res.status(404).json({ message: `Host with id ${id} not found` });
+    }
+
+    if (username && username !== existingHost.username) {
+      const usernameTaken = await prisma.host.findUnique({
+        where: { username },
+      });
+      if (usernameTaken) {
+        return res.status(409).json({ message: "Username already exists." });
+      }
+    }
+
+    if (email && email !== existingHost.email) {
+      const emailTaken = await prisma.host.findUnique({ where: { email } });
+      if (emailTaken) {
+        return res.status(409).json({ message: "Email already exists." });
+      }
+    }
+
     const host = await updateHostById(id, {
       username,
       password,
@@ -86,17 +123,23 @@ router.put("/:id", auth, async (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
-  const {
-    username,
-    password,
-    name,
-    email,
-    phoneNumber,
-    profilePicture,
-    aboutMe,
-  } = req.body;
-
   try {
+    const {
+      username,
+      password,
+      name,
+      email,
+      phoneNumber,
+      profilePicture,
+      aboutMe,
+    } = req.body;
+
+    if (!username || !password || !name || !email || !phoneNumber) {
+      return res.status(400).json({
+        message: "Missing required host details.",
+      });
+    }
+
     const newHost = await createHost(
       username,
       password,
@@ -108,6 +151,22 @@ router.post("/", async (req, res, next) => {
     );
     res.status(201).json(newHost);
   } catch (error) {
+    if (
+      error.code === "P2002" &&
+      Array.isArray(error.meta?.target) &&
+      error.meta.target.includes("email")
+    ) {
+      return res.status(409).json({ message: "Email already exists." });
+    }
+
+    if (
+      error.code === "P2002" &&
+      Array.isArray(error.meta?.target) &&
+      error.meta.target.includes("username")
+    ) {
+      return res.status(409).json({ message: "Username already exists." });
+    }
+
     next(error);
   }
 });
@@ -117,17 +176,19 @@ router.delete("/:id", auth, async (req, res, next) => {
   try {
     const host = await deleteHostById(id);
 
-    if (host) {
-      res.status(200).send({
-        message: `Host with id ${id} successfully deleted`,
-        host,
-      });
-    } else {
-      res.status(404).json({
-        message: `Host with id ${id} not found`,
+    res.status(200).send({
+      message: `Host with id ${id} successfully deleted`,
+      host,
+    });
+  } catch (error) {
+    if (error.code === "P2003") {
+      return res.status(409).json({
+        message: "Cannot delete host with properties.",
       });
     }
-  } catch (error) {
+    if (error.code === "P2025") {
+      return res.status(404).json({ message: `Host with id ${id} not found.` });
+    }
     next(error);
   }
 });

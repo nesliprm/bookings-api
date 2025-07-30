@@ -8,13 +8,21 @@ const router = Router();
 router.post("/", async (req, res) => {
   const secretKey = process.env.AUTH_SECRET_KEY || "my-secret-key";
   const { username, password } = req.body;
-  const host = await prisma.host.findUnique({ where: { username } });
 
-  if (!host) {
-    return res.status(401).json({ message: "Invalid credentials!" });
+  if (
+    typeof username !== "string" ||
+    typeof password !== "string" ||
+    username.trim().length === 0 ||
+    password.trim().length === 0
+  ) {
+    return res.status(400).json({
+      message: "Username and password are required and cannot be empty.",
+    });
   }
 
-  if (host.password !== password) {
+  const host = await prisma.host.findUnique({ where: { username } });
+
+  if (!host || host.password !== password) {
     return res.status(401).json({ message: "Invalid credentials!" });
   }
 

@@ -8,6 +8,144 @@
 	},
 	"item": [
 		{
+			"name": "login (happy)",
+			"item": [
+				{
+					"name": "POST user login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/userlogin endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"/userlogin endpoint should return a response body that is an object\", () => {\r",
+									"  pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should contain a success message\", () => {\r",
+									"  const jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData.message).to.include(\"Successfully logged in\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should contain a valid token\", () => {\r",
+									"  const token = pm.response.json().token;\r",
+									"  pm.expect(token).to.be.a(\"string\");\r",
+									"  pm.expect(token.length).to.be.greaterThan(32);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Login returns token\", () => {\r",
+									"  const jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData).to.have.property(\"token\");\r",
+									"  pm.environment.set(\"token\", jsonData.token);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"smiller\",\r\n    \"password\": \"password567\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/userlogin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"userlogin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST host login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"/hostlogin endpoint should return 200 OK status code\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"/hostlogin endpoint should return a response body that is an object\", () => {\r",
+									"  pm.expect(pm.response.json()).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should contain a success message\", () => {\r",
+									"  const jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData.message).to.include(\"Successfully logged in\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should contain a valid token\", () => {\r",
+									"  const token = pm.response.json().token;\r",
+									"  pm.expect(token).to.be.a(\"string\");\r",
+									"  pm.expect(token.length).to.be.greaterThan(32);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Login returns token\", () => {\r",
+									"  const jsonData = pm.response.json();\r",
+									"  pm.expect(jsonData).to.have.property(\"token\");\r",
+									"  pm.environment.set(\"token\", jsonData.token);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{hostToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"johnDoe\",\r\n    \"password\": \"johnDoe123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hostlogin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hostlogin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "users (happy)",
 			"item": [
 				{
@@ -715,7 +853,14 @@
 									"  pm.expect(host.phoneNumber).to.eql(requestData.phoneNumber);\r",
 									"  pm.expect(host.profilePicture).to.eql(requestData.profilePicture);\r",
 									"  pm.expect(host.aboutMe).to.eql(requestData.aboutMe);\r",
-									"});"
+									"});\r",
+									"\r",
+									"const host = pm.response.json();\r",
+									"const requestBody = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"pm.environment.set(\"hostId\", host.id);\r",
+									"pm.environment.set(\"username\", requestBody.username);\r",
+									"pm.environment.set(\"password\", requestBody.password);"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -727,7 +872,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"username\": \"lisa\",\r\n  \"password\": \"pass4321\",\r\n  \"name\": \"Lisa Müller\",\r\n  \"email\": \"lisa@email.com\",\r\n  \"phoneNumber\": \"+491234567890\",\r\n  \"profilePicture\": \"https://wincacademy.github.io/webpages/media/lisa.jpeg\",\r\n  \"aboutMe\": \"Designer turned developer, lover of clean code and strong coffee.\"\r\n}",
+							"raw": "{\r\n    \"username\": \"marcello\",\r\n    \"password\": \"securePass123\",\r\n    \"name\": \"Marcello Rossi\",\r\n    \"email\": \"marcello@example.com\",\r\n    \"phoneNumber\": \"+393491234567\",\r\n    \"profilePicture\": \"https://randomuser.me/api/portraits/men/75.jpg\",\r\n    \"aboutMe\": \"Passionate traveler and tech enthusiast who loves building meaningful digital experiences.\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -873,13 +1018,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{baseUrl}}/hosts/81b18b22-ed4c-45aa-9cc0-4b7edc793e79",
+							"raw": "{{baseUrl}}/hosts/{{hostId}}",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"hosts",
-								"81b18b22-ed4c-45aa-9cc0-4b7edc793e79"
+								"{{hostId}}"
 							]
 						}
 					},
@@ -1205,7 +1350,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"numberOfGuests\": 4\r\n}",
+							"raw": "{\r\n    \"numberOfGuests\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1213,13 +1358,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/bookings/e38a6404-a1bb-400c-990a-2d0caa4d1cc0",
+							"raw": "{{baseUrl}}/bookings/f0123456-78ab-cdef-0123-456789abcdef",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"bookings",
-								"e38a6404-a1bb-400c-990a-2d0caa4d1cc0"
+								"f0123456-78ab-cdef-0123-456789abcdef"
 							]
 						}
 					},
@@ -1280,13 +1425,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{baseUrl}}/bookings/b4e1cf3c-fd25-451b-95af-e9b8310ba310",
+							"raw": "{{baseUrl}}/bookings/b5678901-23de-f012-3456-789abcdef012",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"bookings",
-								"b4e1cf3c-fd25-451b-95af-e9b8310ba310"
+								"b5678901-23de-f012-3456-789abcdef012"
 							]
 						}
 					},
@@ -1747,13 +1892,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{baseUrl}}/properties/1a61ef52-17fb-4077-8470-a1fe96b43640",
+							"raw": "{{baseUrl}}/properties/m4567890-12ab-3456-789c-def012345678",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"properties",
-								"1a61ef52-17fb-4077-8470-a1fe96b43640"
+								"m4567890-12ab-3456-789c-def012345678"
 							]
 						}
 					},
@@ -1980,13 +2125,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/reviews/a9310182-e2e4-435c-af88-e84233a508fe",
+							"raw": "{{baseUrl}}/reviews/g7890123-45cd-ef01-2345-6789abcdef01",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"reviews",
-								"a9310182-e2e4-435c-af88-e84233a508fe"
+								"g7890123-45cd-ef01-2345-6789abcdef01"
 							]
 						}
 					},
@@ -2049,138 +2194,6 @@
 							"path": [
 								"reviews",
 								"i9012345-67ef-0123-4567-89abcdef0123"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "login (happy)",
-			"item": [
-				{
-					"name": "POST user login",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"/userlogin endpoint should return 200 OK status code\", () => {\r",
-									"  pm.expect(pm.response.code).to.equal(200);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"/userlogin endpoint should return a response body that is an object\", () => {\r",
-									"  pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Response should contain a success message\", () => {\r",
-									"  const jsonData = pm.response.json();\r",
-									"  pm.expect(jsonData.message).to.include(\"Successfully logged in\");\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Response should contain a valid token\", () => {\r",
-									"  const token = pm.response.json().token;\r",
-									"  pm.expect(token).to.be.a(\"string\");\r",
-									"  pm.expect(token.length).to.be.greaterThan(32);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Login returns token\", () => {\r",
-									"  const jsonData = pm.response.json();\r",
-									"  pm.expect(jsonData).to.have.property(\"token\");\r",
-									"  pm.environment.set(\"token\", jsonData.token);\r",
-									"});\r",
-									"\r",
-									"\r",
-									"\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"{{username}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/userlogin",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"userlogin"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "POST host login",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"/hostlogin endpoint should return 200 OK status code\", () => {\r",
-									"  pm.expect(pm.response.code).to.equal(200);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"/hostlogin endpoint should return a response body that is an object\", () => {\r",
-									"  pm.expect(pm.response.json()).to.be.an(\"object\");\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Response should contain a success message\", () => {\r",
-									"  const jsonData = pm.response.json();\r",
-									"  pm.expect(jsonData.message).to.include(\"Successfully logged in\");\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Response should contain a valid token\", () => {\r",
-									"  const token = pm.response.json().token;\r",
-									"  pm.expect(token).to.be.a(\"string\");\r",
-									"  pm.expect(token.length).to.be.greaterThan(32);\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{hostToken}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"johnDoe\",\r\n    \"password\": \"johnDoe123\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/hostlogin",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"hostlogin"
 							]
 						}
 					},

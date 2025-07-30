@@ -58,6 +58,13 @@ router.put("/:id", auth, async (req, res, next) => {
 router.post("/", auth, async (req, res, next) => {
   try {
     const { userId, propertyId, rating, comment } = req.body;
+
+    if (!userId || !propertyId || !rating || !comment) {
+      return res.status(400).json({
+        message: "userId, propertyId, rating, and comment are all required.",
+      });
+    }
+
     const newReview = await createReview(userId, propertyId, rating, comment);
     res.status(201).json(newReview);
   } catch (error) {

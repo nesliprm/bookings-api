@@ -17,8 +17,8 @@ model Host {
 id       String  @id @default(uuid())
 username String  @unique
 password String
-name     String
-email String
+name     String 
+email String @unique
 phoneNumber    String?
 profilePicture String?
 aboutMe String?

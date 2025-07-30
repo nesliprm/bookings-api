@@ -1,7 +1,7 @@
 import prisma from "../../lib/prisma.js";
 
 const deletePropertyById = async (id) => {
-  return prisma.property.delete({
+  return await prisma.property.delete({
     where: { id },
   });
 };

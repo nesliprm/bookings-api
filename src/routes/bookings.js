@@ -13,6 +13,12 @@ router.get("/", async (req, res, next) => {
   const { userId } = req.query;
 
   try {
+    if ("userId" in req.query && userId.trim() === "") {
+      return res
+        .status(400)
+        .json({ message: "Please provide a user ID to search." });
+    }
+
     if (userId) {
       const bookings = await getBookingByUserId(userId);
 
@@ -59,6 +65,12 @@ router.put("/:id", auth, async (req, res, next) => {
     bookingStatus,
   } = req.body;
 
+  if (!req.body || Object.keys(req.body).length === 0) {
+    return res.status(400).json({
+      message: "Missing update data — fields cannot be empty.",
+    });
+  }
+
   try {
     const booking = await updateBookingById(id, {
       userId,
@@ -86,10 +98,22 @@ router.put("/:id", auth, async (req, res, next) => {
 });
 
 router.post("/", auth, async (req, res, next) => {
-  const { userId, propertyId, checkinDate, checkoutDate, numberOfGuests } =
-    req.body;
-
   try {
+    const { userId, propertyId, checkinDate, checkoutDate, numberOfGuests } =
+      req.body;
+
+    if (
+      !userId ||
+      !propertyId ||
+      !checkinDate ||
+      !checkoutDate ||
+      numberOfGuests == null
+    ) {
+      return res.status(400).json({
+        message: "Missing required booking details.",
+      });
+    }
+
     const newBooking = await createBooking(
       userId,
       propertyId,

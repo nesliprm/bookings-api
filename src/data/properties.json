@@ -60,7 +60,7 @@
       "hostId": "b5678901-23ef-0123-4567-89abcdef0123",
       "rating": 4
     },
-	{
+    {
       "id": "a9876543-21dc-4321-ba98-fedcba098765",
       "title": "Charming Canal Apartment",
       "description": "Experience authentic Amsterdam living in this cozy canal-side apartment with classic Dutch architecture and modern comforts.",
@@ -71,6 +71,18 @@
       "maxGuestCount": 4,
       "hostId": "d2345678-90ab-cdef-1234-567890abcdef",
       "rating": 5
+    },
+    {
+      "id": "m4567890-12ab-3456-789c-def012345678",
+      "title": "Testing Property",
+      "description": "A testing property that has no bookings, not now not ever.",
+      "location": "Amsterdam, Netherlands",
+      "pricePerNight": 100.0,
+      "bedroomCount": 1,
+      "bathRoomCount": 1,
+      "maxGuestCount": 1,
+      "hostId": "d2345678-90ab-cdef-1234-567890abcdef",
+      "rating": 0
     }
   ]
 }

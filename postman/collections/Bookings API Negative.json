@@ -1,339 +1,3643 @@
 {
-  "info": {
-    "_postman_id": "b208edda-4525-4562-8edc-315d10e85bf2",
-    "name": "bookings-api-sad-paths",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "44762698",
-    "_collection_link": "https://nesli-4153839.postman.co/workspace/bookings-api~b58e3dd0-b346-47ca-9003-e1931f7dbb99/collection/44762698-b208edda-4525-4562-8edc-315d10e85bf2?action=share&source=collection_link&creator=44762698"
-  },
-  "item": [
-    {
-      "name": "users (sad)",
-      "item": [
-        {
-          "name": "GET user by id - invalid id",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [""],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/users/44444",
-              "host": ["{{baseUrl}}"],
-              "path": ["users", "44444"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "CREATE user - missing email",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [""],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"username\": \"baduser\",\r\n    \"password\": \"pass\",\r\n    \"name\": \"No\",\r\n    \"phoneNumber\": \"1111111111\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/users",
-              "host": ["{{baseUrl}}"],
-              "path": ["users"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "CREATE user - existing email",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [""],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"username\": \"newperson\",\r\n    \"password\": \"password123\",\r\n    \"name\": \"New Person\",\r\n    \"email\": \"johndoe@example.com\",\r\n    \"phoneNumber\": \"1234567890\",\r\n    \"pictureUrl\": \"https://example.com/avatar.jpg\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/users",
-              "host": ["{{baseUrl}}"],
-              "path": ["users"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "UPDATE user - no token",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [""],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"username\": \"nparmaksiz\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/users/e6c6b2a8-9eed-429e-9b9c-1e59fde23094",
-              "host": ["{{baseUrl}}"],
-              "path": ["users", "e6c6b2a8-9eed-429e-9b9c-1e59fde23094"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "UPDATE user - invalid id",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [""],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{userToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"username\": \"nparmaksiz\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/users/9999",
-              "host": ["{{baseUrl}}"],
-              "path": ["users", "9999"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "UPDATE user - invalid body",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [""],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{userToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"email\": \"\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/users/e6c6b2a8-9eed-429e-9b9c-1e59fde23094",
-              "host": ["{{baseUrl}}"],
-              "path": ["users", "e6c6b2a8-9eed-429e-9b9c-1e59fde23094"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "DELETE user - no token",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [""],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/users/e6c6b2a8-9eed-429e-9b9c-1e59fde23094",
-              "host": ["{{baseUrl}}"],
-              "path": ["users", "e6c6b2a8-9eed-429e-9b9c-1e59fde23094"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "DELETE user - bad token",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [""],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer asdjdha647328467283fdsjkfgh",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/users/e6c6b2a8-9eed-429e-9b9c-1e59fde23094",
-              "host": ["{{baseUrl}}"],
-              "path": ["users", "e6c6b2a8-9eed-429e-9b9c-1e59fde23094"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "DELETE user - invalid id",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [""],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{userToken}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/users/6666666",
-              "host": ["{{baseUrl}}"],
-              "path": ["users", "6666666"]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "hosts (sad)",
-      "item": []
-    },
-    {
-      "name": "bookings (sad)",
-      "item": []
-    },
-    {
-      "name": "properties (sad)",
-      "item": []
-    },
-    {
-      "name": "reviews (sad)",
-      "item": []
-    },
-    {
-      "name": "login (sad)",
-      "item": []
-    }
-  ]
+	"info": {
+		"_postman_id": "b208edda-4525-4562-8edc-315d10e85bf2",
+		"name": "bookings-api-sad-paths",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44762698",
+		"_collection_link": "https://nesli-4153839.postman.co/workspace/bookings-api~b58e3dd0-b346-47ca-9003-e1931f7dbb99/collection/44762698-b208edda-4525-4562-8edc-315d10e85bf2?action=share&source=collection_link&creator=44762698"
+	},
+	"item": [
+		{
+			"name": "users (sad)",
+			"item": [
+				{
+					"name": "GET user by id - invalid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"GET user by invalid ID should return 404 or 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"GET user by invalid ID should return error message\", () => {\r",
+									"  const res = pm.response.json();\r",
+									"  pm.expect(res).to.have.property(\"message\");\r",
+									"  pm.expect(res.message).to.be.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/44444",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"44444"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET user by email - email not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"GET user by email (not found) should return 404\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"GET user by email (not found) should return error message\", () => {\r",
+									"  const res = pm.response.json();\r",
+									"  pm.expect(res).to.have.property(\"message\");\r",
+									"  pm.expect(res.message).to.be.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users?email=dfsag@mail.com",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "dfsag@mail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET user by email - empty field",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"GET user by email with empty value should return 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"GET user by email with empty value should return error message\", () => {\r",
+									"  const res = pm.response.json();\r",
+									"  pm.expect(res).to.have.property(\"message\");\r",
+									"  pm.expect(res.message).to.be.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users?email=",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET user by username - username not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"GET user by username (not found) should return 404\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"GET user by username (not found) should return error message\", () => {\r",
+									"  const res = pm.response.json();\r",
+									"  pm.expect(res).to.have.property(\"message\");\r",
+									"  pm.expect(res.message).to.be.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users?username=hsjfdk",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "hsjfdk"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET user by username - empty field",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"GET user by username with empty value should return 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"GET user by username with empty value should return error message\", () => {\r",
+									"  const res = pm.response.json();\r",
+									"  pm.expect(res).to.have.property(\"message\");\r",
+									"  pm.expect(res.message).to.be.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users?username=",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE user - missing fields",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"POST user with missing fields should return 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"POST user with missing fields should return error message\", () => {\r",
+									"  const res = pm.response.json();\r",
+									"  pm.expect(res).to.have.property(\"message\");\r",
+									"  pm.expect(res.message).to.be.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"nparma\",\r\n    \"name\": \"Nesli Parma\",\r\n    \"phoneNumber\": \"123-456-7890\",\r\n    \"pictureUrl\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE user - existing email and/or username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"POST user with existing email should return 409 or 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([400, 409]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"POST user with existing email should return error message\", () => {\r",
+									"  const res = pm.response.json();\r",
+									"  pm.expect(res).to.have.property(\"message\");\r",
+									"  pm.expect(res.message).to.be.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"newperson\",\r\n    \"password\": \"password123\",\r\n    \"name\": \"New Person\",\r\n    \"email\": \"johndoe@example.com\",\r\n    \"phoneNumber\": \"1234567890\",\r\n    \"pictureUrl\": \"https://example.com/avatar.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE user - invalid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"PUT user with invalid ID should return 404 or 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"PUT user with invalid ID should return error message\", () => {\r",
+									"  const res = pm.response.json();\r",
+									"  pm.expect(res).to.have.property(\"message\");\r",
+									"  pm.expect(res.message).to.be.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"nparmaksiz\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/9999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"9999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE user - no auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 401 when no token is provided\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention token\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"token\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"nparmaksiz\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/e6c6b2a8-9eed-429e-9b9c-1e59fde23094",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"e6c6b2a8-9eed-429e-9b9c-1e59fde23094"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE user - invalid token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 403 for invalid token\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention invalid token\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"invalid token\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer fhdsjk6754365783456487543",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"nparmaksiz\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/e6c6b2a8-9eed-429e-9b9c-1e59fde23094",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"e6c6b2a8-9eed-429e-9b9c-1e59fde23094"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE user - empty body",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 400 for empty update body\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention missing or invalid update data\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"missing\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/e6c6b2a8-9eed-429e-9b9c-1e59fde23094",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"e6c6b2a8-9eed-429e-9b9c-1e59fde23094"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE user - existing email and/or username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"UPDATE user with existing email should return 409 or 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([400, 409]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"UPDATE user with existing email should return error message\", () => {\r",
+									"  const res = pm.response.json();\r",
+									"  pm.expect(res).to.have.property(\"message\");\r",
+									"  pm.expect(res.message).to.be.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Johnky Doenne\",\r\n    \"email\": \"johndoe@example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/c3456789-01de-f012-3456-789abcdef012",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"c3456789-01de-f012-3456-789abcdef012"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE user - invalid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DELETE user with invalid ID should return 404 or 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"DELETE user with invalid ID should return error message\", () => {\r",
+									"  const res = pm.response.json();\r",
+									"  pm.expect(res).to.have.property(\"message\");\r",
+									"  pm.expect(res.message).to.be.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/6666666",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"6666666"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE user - no auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 401 when no token is provided\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention token\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"token\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/e6c6b2a8-9eed-429e-9b9c-1e59fde23094",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"e6c6b2a8-9eed-429e-9b9c-1e59fde23094"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE user - invalid token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 403 for invalid token\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention invalid token\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"invalid token\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer asdjdha647328467283fdsjkfgh",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/e6c6b2a8-9eed-429e-9b9c-1e59fde23094",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"e6c6b2a8-9eed-429e-9b9c-1e59fde23094"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE user - has bookings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 409 when user has bookings\", function () {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should explain conflict due to active bookings\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"cannot delete\");\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"bookings\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/d4567890-12ef-0123-4567-89abcdef0123",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"d4567890-12ef-0123-4567-89abcdef0123"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "hosts (sad)",
+			"item": [
+				{
+					"name": "GET host by id - invalid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"GET host by invalid ID should return 404 or 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"GET host by invalid ID should return error message\", () => {\r",
+									"  const res = pm.response.json();\r",
+									"  pm.expect(res).to.have.property(\"message\");\r",
+									"  pm.expect(res.message).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"nparma\",\r\n    \"password\": \"12345\",\r\n    \"name\": \"Nesli Parma\",\r\n    \"email\": \"nparma@example.com\",\r\n    \"phoneNumber\": \"123-456-7891\",\r\n    \"pictureUrl\": null\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hosts/9999999999999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hosts",
+								"9999999999999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET host by name - name not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"GET host by name (not found) should return 404\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"GET host by name (not found) should return error message\", () => {\r",
+									"  const res = pm.response.json();\r",
+									"  pm.expect(res).to.have.property(\"message\");\r",
+									"  pm.expect(res.message).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"nparma\",\r\n    \"password\": \"12345\",\r\n    \"name\": \"Nesli Parma\",\r\n    \"email\": \"nparma@example.com\",\r\n    \"phoneNumber\": \"123-456-7891\",\r\n    \"pictureUrl\": null\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hosts?name=hsadj",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hosts"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "hsadj"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET host by name - empty field",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"GET host by name with empty value should return 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"GET host by name with empty value should return error message\", () => {\r",
+									"  const res = pm.response.json();\r",
+									"  pm.expect(res).to.have.property(\"message\");\r",
+									"  pm.expect(res.message).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hosts?name=",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hosts"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE host - missing fields",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"POST host with missing fields should return 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.equal(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"POST host with missing fields should return error message\", () => {\r",
+									"  const res = pm.response.json();\r",
+									"  pm.expect(res).to.have.property(\"message\");\r",
+									"  pm.expect(res.message).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"lisa\",\r\n    \"password\": \"pass4321\",\r\n    \"phoneNumber\": \"+491234567890\",\r\n    \"profilePicture\": \"https://wincacademy.github.io/webpages/media/lisa.jpeg\",\r\n    \"aboutMe\": \"Designer turned developer, lover of clean code and strong coffee.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hosts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hosts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE host - existing email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"POST host with existing email should return 409 or 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([400, 409]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"POST host with existing email should return error message\", () => {\r",
+									"  const res = pm.response.json();\r",
+									"  pm.expect(res).to.have.property(\"message\");\r",
+									"  pm.expect(res.message).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"lisaaaaaaa\",\r\n  \"password\": \"pass4321\",\r\n  \"name\": \"Lisa Müller\",\r\n  \"email\": \"johndoe@email.com\",\r\n  \"phoneNumber\": \"+491234567890\",\r\n  \"profilePicture\": \"https://wincacademy.github.io/webpages/media/lisa.jpeg\",\r\n  \"aboutMe\": \"Designer turned developer, lover of clean code and strong coffee.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hosts",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hosts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE host - invalid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"PUT host with invalid ID should return 404 or 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"PUT host with invalid ID should return error message\", () => {\r",
+									"  const res = pm.response.json();\r",
+									"  pm.expect(res).to.have.property(\"message\");\r",
+									"  pm.expect(res.message).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{hostToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"7654321\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hosts/9999999999999999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hosts",
+								"9999999999999999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE host - no auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 401 when no token is provided\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention token\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"token\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"7654321\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hosts/f1234567-89ab-cdef-0123-456789abcdef",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hosts",
+								"f1234567-89ab-cdef-0123-456789abcdef"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE host - invalid token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 403 for invalid token\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention invalid token\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"invalid token\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer hujkfh652875627856287",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"7654321\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hosts/f1234567-89ab-cdef-0123-456789abcdef",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hosts",
+								"f1234567-89ab-cdef-0123-456789abcdef"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE host - empty body",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 400 for empty update body\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention missing or invalid update data\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"missing\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{hostToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hosts/f1234567-89ab-cdef-0123-456789abcdef",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hosts",
+								"f1234567-89ab-cdef-0123-456789abcdef"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE host - existing email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"UPDATE host with existing email should return 409 or 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([400, 409]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"UPDATE host with existing email should return error message\", () => {\r",
+									"  const res = pm.response.json();\r",
+									"  pm.expect(res).to.have.property(\"message\");\r",
+									"  pm.expect(res.message).to.be.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{hostToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"johndoe@email.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hosts/c4567890-12de-f012-3456-789abcdef012",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hosts",
+								"c4567890-12de-f012-3456-789abcdef012"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE host - invalid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DELETE host with invalid ID should return 404 or 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"DELETE host with invalid ID should return error message\", () => {\r",
+									"  const res = pm.response.json();\r",
+									"  pm.expect(res).to.have.property(\"message\");\r",
+									"  pm.expect(res.message).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{hostToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hosts/8888888888888888",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hosts",
+								"8888888888888888"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE host - no auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 401 when no token is provided\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention token\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"token\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hosts/81b18b22-ed4c-45aa-9cc0-4b7edc793e79",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hosts",
+								"81b18b22-ed4c-45aa-9cc0-4b7edc793e79"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE host - invalid token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 403 for invalid token\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention invalid token\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"invalid token\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ds76286438274623887348723",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hosts/81b18b22-ed4c-45aa-9cc0-4b7edc793e79",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hosts",
+								"81b18b22-ed4c-45aa-9cc0-4b7edc793e79"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE host - has properties",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 409 when host has listed properties\", function () {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should explain conflict due to active bookings\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"cannot delete\");\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"properties\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{hostToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hosts/f1234567-89ab-cdef-0123-456789abcdef",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hosts",
+								"f1234567-89ab-cdef-0123-456789abcdef"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "bookings (sad)",
+			"item": [
+				{
+					"name": "GET booking by id - invalid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 404 for invalid booking ID\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention not found\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"not found\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/bookings/9999999999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bookings",
+								"9999999999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET booking by userId - not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 404 if no bookings found for the userId\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should explain no bookings found\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"no bookings\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/bookings?userId=99999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bookings"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "99999"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET booking by userId - no query",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 400 when userId query is missing\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention missing userId query\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"user\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/bookings?userId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bookings"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE booking - no auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 401 when no token is provided\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention token is required\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"token\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"hostId\": \"f1234567-89ab-cdef-0123-456789abcdef\",\r\n    \"title\": \"Stylish Studio in City Center\",\r\n    \"description\": \"Compact and modern studio ideal for solo travelers or couples.\",\r\n    \"location\": \"Vienna, Austria\",\r\n    \"pricePerNight\": \"105\",\r\n    \"bedroomCount\": 1,\r\n    \"bathRoomCount\": 1,\r\n    \"maxGuestCount\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bookings",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE booking - invalid token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 403 for invalid token\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention invalid token\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"invalid token\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 7362843289hfsdkd75894w",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"hostId\": \"f1234567-89ab-cdef-0123-456789abcdef\",\r\n    \"title\": \"Stylish Studio in City Center\",\r\n    \"description\": \"Compact and modern studio ideal for solo travelers or couples.\",\r\n    \"location\": \"Vienna, Austria\",\r\n    \"pricePerNight\": \"105\",\r\n    \"bedroomCount\": 1,\r\n    \"bathRoomCount\": 1,\r\n    \"maxGuestCount\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bookings",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE booking - missing fields",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 400 for missing fields\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention missing property details\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"missing\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{hostToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"hostId\": \"f1234567-89ab-cdef-0123-456789abcdef\",\r\n    \"description\": \"Compact and modern studio ideal for solo travelers or couples.\",\r\n    \"location\": \"Vienna, Austria\",\r\n    \"bedroomCount\": 1,\r\n    \"bathRoomCount\": 1,\r\n    \"maxGuestCount\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bookings",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE booking - invalid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 404 for invalid booking ID\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention not found\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"not found\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pricePerNight\": \"1000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bookings/9966555555555",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bookings",
+								"9966555555555"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE booking - no auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 401 when no token is provided\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention token\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"token\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pricePerNight\": \"1000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bookings/a9876543-21dc-4321-ba98-fedcba098765",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bookings",
+								"a9876543-21dc-4321-ba98-fedcba098765"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE booking - invalid token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 403 for invalid token\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention invalid token\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"invalid token\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer jsakdjsak743857349857",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pricePerNight\": \"1000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bookings/a9876543-21dc-4321-ba98-fedcba098765",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bookings",
+								"a9876543-21dc-4321-ba98-fedcba098765"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE booking - empty body",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 400 for empty update body\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention missing or invalid update data\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"missing\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bookings/a9876543-21dc-4321-ba98-fedcba098765",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bookings",
+								"a9876543-21dc-4321-ba98-fedcba098765"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE booking - invalid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 404 for invalid property ID\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention not found\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"not found\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bookings/999999999999999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bookings",
+								"999999999999999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE booking - bad token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 403 for invalid token\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention invalid token\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"invalid token\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer sjdkfjsd564987639857348975839",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bookings/1a61ef52-17fb-4077-8470-a1fe96b43640",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bookings",
+								"1a61ef52-17fb-4077-8470-a1fe96b43640"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE booking - no token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 401 when no token is provided\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention token\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"token\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bookings/1a61ef52-17fb-4077-8470-a1fe96b43640",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"bookings",
+								"1a61ef52-17fb-4077-8470-a1fe96b43640"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "properties (sad)",
+			"item": [
+				{
+					"name": "GET property by id - invalid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 404 for invalid property ID\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention not found\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"not found\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties/9999999999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"9999999999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET property by location - not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 404 if no properties found for location\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should explain no properties found\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"no properties\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties?location=bursa",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties"
+							],
+							"query": [
+								{
+									"key": "location",
+									"value": "bursa"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET property by location - no query",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 400 when location query is missing\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention missing location query\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"location\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties?location",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties"
+							],
+							"query": [
+								{
+									"key": "location",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET property by price - not found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 404 when no properties match price\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention no properties found\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"no properties\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties?pricePerNight=5",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties"
+							],
+							"query": [
+								{
+									"key": "pricePerNight",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET property by price - no query",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 400 for missing price value\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention pricePerNight is required\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"price\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/properties?pricePerNight",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties"
+							],
+							"query": [
+								{
+									"key": "pricePerNight",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE property - no auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 401 when no token is provided\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention token is required\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"token\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"hostId\": \"f1234567-89ab-cdef-0123-456789abcdef\",\r\n    \"title\": \"Stylish Studio in City Center\",\r\n    \"description\": \"Compact and modern studio ideal for solo travelers or couples.\",\r\n    \"location\": \"Vienna, Austria\",\r\n    \"pricePerNight\": \"105\",\r\n    \"bedroomCount\": 1,\r\n    \"bathRoomCount\": 1,\r\n    \"maxGuestCount\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/properties",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE property - invalid token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 403 for invalid token\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention invalid token\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"invalid token\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 7362843289hfsdkd75894w",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"hostId\": \"f1234567-89ab-cdef-0123-456789abcdef\",\r\n    \"title\": \"Stylish Studio in City Center\",\r\n    \"description\": \"Compact and modern studio ideal for solo travelers or couples.\",\r\n    \"location\": \"Vienna, Austria\",\r\n    \"pricePerNight\": \"105\",\r\n    \"bedroomCount\": 1,\r\n    \"bathRoomCount\": 1,\r\n    \"maxGuestCount\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/properties",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE property - missing fields",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 400 for missing fields\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention missing property details\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"missing\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{hostToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"hostId\": \"f1234567-89ab-cdef-0123-456789abcdef\",\r\n    \"description\": \"Compact and modern studio ideal for solo travelers or couples.\",\r\n    \"location\": \"Vienna, Austria\",\r\n    \"bedroomCount\": 1,\r\n    \"bathRoomCount\": 1,\r\n    \"maxGuestCount\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/properties",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE property - invalid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 404 for invalid property ID\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention not found\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"not found\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{hostToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pricePerNight\": \"1000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/properties/9966555555555",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"9966555555555"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE property - no auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 401 when no token is provided\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention token\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"token\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pricePerNight\": \"1000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/properties/a9876543-21dc-4321-ba98-fedcba098765",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"a9876543-21dc-4321-ba98-fedcba098765"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE property - invalid token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 403 for invalid token\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention invalid token\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"invalid token\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer jsakdjsak743857349857",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pricePerNight\": \"1000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/properties/a9876543-21dc-4321-ba98-fedcba098765",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"a9876543-21dc-4321-ba98-fedcba098765"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE property - empty body",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 400 for empty update body\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention missing or invalid update data\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"missing\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{hostToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/properties/a9876543-21dc-4321-ba98-fedcba098765",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"a9876543-21dc-4321-ba98-fedcba098765"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE property - invalid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 404 for invalid property ID\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention not found\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"not found\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{hostToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/properties/999999999999999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"999999999999999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE property - bad token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 403 for invalid token\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention invalid token\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"invalid token\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer sjdkfjsd564987639857348975839",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/properties/1a61ef52-17fb-4077-8470-a1fe96b43640",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"1a61ef52-17fb-4077-8470-a1fe96b43640"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE property - no token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 401 when no token is provided\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention token\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"token\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/properties/1a61ef52-17fb-4077-8470-a1fe96b43640",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"1a61ef52-17fb-4077-8470-a1fe96b43640"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE property - has booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 409 when property has active bookings\", function () {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should explain conflict due to active bookings\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"cannot delete\");\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"bookings\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{hostToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/properties/g9012345-67ef-0123-4567-89abcdef0123",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"properties",
+								"g9012345-67ef-0123-4567-89abcdef0123"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "reviews (sad)",
+			"item": [
+				{
+					"name": "GET review by id - invalid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 400 or 404 for invalid ID\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 404]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains an error message\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res).to.have.property(\"message\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reviews/99999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reviews",
+								"99999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE review - empty body",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 400 for empty review body\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should explain missing input\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message).to.include(\"required\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reviews",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE review - bad token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 403 for invalid token\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message mentions invalid token\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"invalid token\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 36478329529-059320-592-502305",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"a1234567-89ab-cdef-0123-456789abcdef\",\r\n    \"propertyId\": \"i1234567-89f0-1234-5678-9abcdef01234\",\r\n    \"rating\": 4,\r\n    \"comment\": \"Great amenities and comfortable bed, but check-in was a bit confusing.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reviews",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE review - no token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 401 when no token is provided\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response should explain missing token\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"token\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"a1234567-89ab-cdef-0123-456789abcdef\",\r\n    \"propertyId\": \"i1234567-89f0-1234-5678-9abcdef01234\",\r\n    \"rating\": 4,\r\n    \"comment\": \"Great amenities and comfortable bed, but check-in was a bit confusing.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reviews",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE review - invalid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 404 for invalid review ID\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention not found\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"not found\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rating\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reviews/88888888888888",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reviews",
+								"88888888888888"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE review - bad token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 403 for invalid token\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message mentions invalid token\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"invalid token\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 647567827093842384902",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rating\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reviews/a9310182-e2e4-435c-af88-e84233a508fe",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reviews",
+								"a9310182-e2e4-435c-af88-e84233a508fe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE review - no token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 401 when no token is provided\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message mentions token is required\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"token\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rating\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reviews/a9310182-e2e4-435c-af88-e84233a508fe",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reviews",
+								"a9310182-e2e4-435c-af88-e84233a508fe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE review - invalid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 404 for invalid review ID\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message should mention not found\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"not found\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{userToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reviews/777777777777777",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reviews",
+								"777777777777777"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE review - bad token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 403 for invalid token\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message mentions invalid token\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"invalid token\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 32748932rejhgfej235978798235",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reviews/i9012345-67ef-0123-4567-89abcdef0123",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reviews",
+								"i9012345-67ef-0123-4567-89abcdef0123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE review - no token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 401 when no token is provided\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message mentions token is required\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message.toLowerCase()).to.include(\"token\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reviews/i9012345-67ef-0123-4567-89abcdef0123",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reviews",
+								"i9012345-67ef-0123-4567-89abcdef0123"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "login (sad)",
+			"item": [
+				{
+					"name": "POST user login - invalid cred",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error message for invalid credentials\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message).to.eql(\"Invalid credentials!\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"abdhjas\",\r\n    \"password\": \"passwo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/userlogin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"userlogin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST user login - missing body",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return error when credentials are missing\", function () {\r",
+									"    pm.expect(pm.response.code).to.not.equal(200);\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res).to.have.property(\"message\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"smiller\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/userlogin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"userlogin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST user login - invalid datatype",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message explains input issue\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message).to.include(\"Username and password\");\r",
+									"    pm.expect(res.message).to.not.eql(\"Invalid credentials!\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{hostToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": 123,\r\n    \"password\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/userlogin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"userlogin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST host login - invalid cred",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Error message for invalid credentials\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message).to.eql(\"Invalid credentials!\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"abdhjas\",\r\n    \"password\": \"passwo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hostlogin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hostlogin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST host login - missing body",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return error when credentials are missing\", function () {\r",
+									"    pm.expect(pm.response.code).to.not.equal(200);\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res).to.have.property(\"message\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"smiller\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hostlogin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hostlogin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST host login - invalid datatype",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message explains input issue\", function () {\r",
+									"    const res = pm.response.json();\r",
+									"    pm.expect(res.message).to.include(\"Username and password\");\r",
+									"    pm.expect(res.message).to.not.eql(\"Invalid credentials!\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{hostToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": 123,\r\n    \"password\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/hostlogin",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"hostlogin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
 }

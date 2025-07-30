@@ -7,10 +7,7 @@ const updateUserById = async (id, updatedUser) => {
       data: { ...updatedUser },
     });
   } catch (error) {
-    if (error.code === "P2025") {
-      return null;
-    }
-    throw error;
+    return null;
   }
 };
 

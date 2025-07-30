@@ -1,7 +1,7 @@
 import prisma from "../../lib/prisma.js";
 
 const deleteHostById = async (id) => {
-  return prisma.host.delete({
+  return await prisma.host.delete({
     where: { id },
   });
 };

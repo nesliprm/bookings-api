@@ -1,10 +1,14 @@
 import prisma from "../../lib/prisma.js";
 
 const updateHostById = async (id, updatedHost) => {
-  return prisma.host.update({
-    where: { id },
-    data: { ...updatedHost },
-  });
+  try {
+    return await prisma.host.update({
+      where: { id },
+      data: { ...updatedHost },
+    });
+  } catch (error) {
+    return null;
+  }
 };
 
 export default updateHostById;

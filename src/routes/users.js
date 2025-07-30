@@ -15,6 +15,18 @@ router.get("/", async (req, res, next) => {
   const { username, email } = req.query;
 
   try {
+    if ("username" in req.query && username.trim() === "") {
+      return res
+        .status(400)
+        .json({ message: "Please provide a username to search." });
+    }
+
+    if ("email" in req.query && email.trim() === "") {
+      return res
+        .status(400)
+        .json({ message: "Please provide an email to search." });
+    }
+
     if (username) {
       const users = await getUserByUsername(username);
 
@@ -63,13 +75,41 @@ router.get("/:id", async (req, res, next) => {
 
 router.put("/:id", auth, async (req, res, next) => {
   const { id } = req.params;
-  const { username, password, name, email, phoneNumber, pictureUrl } = req.body;
-
-  if (!email) {
-    return res.status(400).json({ message: "Email is required." });
-  }
 
   try {
+    const { username, password, name, email, phoneNumber, pictureUrl } =
+      req.body;
+
+    if (!req.body || Object.keys(req.body).length === 0) {
+      return res.status(400).json({
+        message: "Missing update data — fields cannot be empty.",
+      });
+    }
+
+    const existingUser = await prisma.user.findUnique({
+      where: { id },
+    });
+
+    if (!existingUser) {
+      return res.status(404).json({ message: `User with id ${id} not found` });
+    }
+
+    if (username && username !== existingUser.username) {
+      const usernameTaken = await prisma.user.findUnique({
+        where: { username },
+      });
+      if (usernameTaken) {
+        return res.status(409).json({ message: "Username already exists." });
+      }
+    }
+
+    if (email && email !== existingUser.email) {
+      const emailTaken = await prisma.user.findUnique({ where: { email } });
+      if (emailTaken) {
+        return res.status(409).json({ message: "Email already exists." });
+      }
+    }
+
     const user = await updateUserById(id, {
       username,
       password,
@@ -137,17 +177,20 @@ router.delete("/:id", auth, async (req, res, next) => {
   try {
     const user = await deleteUserById(id);
 
-    if (user) {
-      res.status(200).send({
-        message: `User with id ${id} successfully deleted`,
-        user,
-      });
-    } else {
-      res.status(404).json({
-        message: `User with id ${id} not found`,
+    res.status(200).send({
+      message: `User with id ${id} successfully deleted`,
+      user,
+    });
+  } catch (error) {
+    if (error.code === "P2003") {
+      return res.status(409).json({
+        message: "Cannot delete user with bookings.",
       });
     }
-  } catch (error) {
+    if (error.code === "P2025") {
+      return res.status(404).json({ message: `User with id ${id} not found` });
+    }
+
     next(error);
   }
 });
