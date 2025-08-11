@@ -18,7 +18,7 @@ id       String  @id @default(uuid())
 username String  @unique
 password String
 name     String 
-email String @unique
+email String
 phoneNumber    String?
 profilePicture String?
 aboutMe String?
@@ -30,7 +30,7 @@ model User {
   username String  @unique
   password String
   name     String
-  email String @unique
+  email String
   phoneNumber String?
   pictureUrl String?
 

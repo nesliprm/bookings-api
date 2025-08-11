@@ -7,7 +7,6 @@ import updateUserById from "../services/users/updateUserById.js";
 import createUser from "../services/users/createUser.js";
 import deleteUserById from "../services/users/deleteUserById.js";
 import auth from "../middleware/auth.js";
-import prisma from "../lib/prisma.js";
 
 const router = Router();
 
@@ -80,35 +79,35 @@ router.put("/:id", auth, async (req, res, next) => {
     const { username, password, name, email, phoneNumber, pictureUrl } =
       req.body;
 
-    if (!req.body || Object.keys(req.body).length === 0) {
-      return res.status(400).json({
-        message: "Missing update data — fields cannot be empty.",
-      });
-    }
+    // if (!req.body || Object.keys(req.body).length === 0) {
+    //   return res.status(400).json({
+    //     message: "Missing update data — fields cannot be empty.",
+    //   });
+    // }
 
-    const existingUser = await prisma.user.findUnique({
-      where: { id },
-    });
+    // const existingUser = await prisma.user.findUnique({
+    //   where: { id },
+    // });
 
-    if (!existingUser) {
-      return res.status(404).json({ message: `User with id ${id} not found` });
-    }
+    // if (!existingUser) {
+    //   return res.status(404).json({ message: `User with id ${id} not found` });
+    // }
 
-    if (username && username !== existingUser.username) {
-      const usernameTaken = await prisma.user.findUnique({
-        where: { username },
-      });
-      if (usernameTaken) {
-        return res.status(409).json({ message: "Username already exists." });
-      }
-    }
+    // if (username && username !== existingUser.username) {
+    //   const usernameTaken = await prisma.user.findUnique({
+    //     where: { username },
+    //   });
+    //   if (usernameTaken) {
+    //     return res.status(409).json({ message: "Username already exists." });
+    //   }
+    // }
 
-    if (email && email !== existingUser.email) {
-      const emailTaken = await prisma.user.findUnique({ where: { email } });
-      if (emailTaken) {
-        return res.status(409).json({ message: "Email already exists." });
-      }
-    }
+    // if (email && email !== existingUser.email) {
+    //   const emailTaken = await prisma.user.findUnique({ where: { email } });
+    //   if (emailTaken) {
+    //     return res.status(409).json({ message: "Email already exists." });
+    //   }
+    // }
 
     const user = await updateUserById(id, {
       username,
@@ -135,28 +134,28 @@ router.put("/:id", auth, async (req, res, next) => {
 });
 
 router.post("/", auth, async (req, res, next) => {
-  const { username, password, name, email, phoneNumber, pictureUrl } = req.body;
-
-  if (!username || !password || !email) {
-    return res
-      .status(400)
-      .json({ message: "Username, password, and email are required." });
-  }
-
-  const existingUser = await prisma.user.findFirst({
-    where: {
-      OR: [{ email: email }, { username: username }],
-    },
-  });
-
-  if (existingUser) {
-    return res
-      .status(409)
-      .json({ message: "Email or username already in use" });
-  }
-
   try {
-    console.log("About to create user:", username);
+    const { username, password, name, email, phoneNumber, pictureUrl } =
+      req.body;
+
+    if (!username || !password || !email) {
+      return res
+        .status(400)
+        .json({ message: "Username, password, and email are required." });
+    }
+
+    // const existingUser = await prisma.user.findFirst({
+    //   where: {
+    //     OR: [{ email: email }, { username: username }],
+    //   },
+    // });
+
+    // if (existingUser) {
+    //   return res
+    //     .status(409)
+    //     .json({ message: "Email or username already in use" });
+    // }
+
     const newUser = await createUser(
       username,
       password,
@@ -176,22 +175,17 @@ router.delete("/:id", auth, async (req, res, next) => {
   const { id } = req.params;
   try {
     const user = await deleteUserById(id);
-
-    res.status(200).send({
-      message: `User with id ${id} successfully deleted`,
-      user,
-    });
-  } catch (error) {
-    if (error.code === "P2003") {
-      return res.status(409).json({
-        message: "Cannot delete user with bookings.",
+    if (user) {
+      res.status(200).send({
+        message: `User with id ${id} successfully deleted`,
+        user,
       });
     }
-    if (error.code === "P2025") {
+  } catch (error) {
+    if (error && error.code === "P2025") {
       return res.status(404).json({ message: `User with id ${id} not found` });
     }
-
-    next(error);
+    return next(error);
   }
 });
 
