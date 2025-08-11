@@ -134,7 +134,7 @@ router.put("/:id", auth, async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", auth, async (req, res, next) => {
   const { username, password, name, email, phoneNumber, pictureUrl } = req.body;
 
   if (!username || !password || !email) {
