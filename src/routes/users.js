@@ -79,36 +79,6 @@ router.put("/:id", auth, async (req, res, next) => {
     const { username, password, name, email, phoneNumber, pictureUrl } =
       req.body;
 
-    // if (!req.body || Object.keys(req.body).length === 0) {
-    //   return res.status(400).json({
-    //     message: "Missing update data — fields cannot be empty.",
-    //   });
-    // }
-
-    // const existingUser = await prisma.user.findUnique({
-    //   where: { id },
-    // });
-
-    // if (!existingUser) {
-    //   return res.status(404).json({ message: `User with id ${id} not found` });
-    // }
-
-    // if (username && username !== existingUser.username) {
-    //   const usernameTaken = await prisma.user.findUnique({
-    //     where: { username },
-    //   });
-    //   if (usernameTaken) {
-    //     return res.status(409).json({ message: "Username already exists." });
-    //   }
-    // }
-
-    // if (email && email !== existingUser.email) {
-    //   const emailTaken = await prisma.user.findUnique({ where: { email } });
-    //   if (emailTaken) {
-    //     return res.status(409).json({ message: "Email already exists." });
-    //   }
-    // }
-
     const user = await updateUserById(id, {
       username,
       password,
@@ -143,18 +113,6 @@ router.post("/", auth, async (req, res, next) => {
         .status(400)
         .json({ message: "Username, password, and email are required." });
     }
-
-    // const existingUser = await prisma.user.findFirst({
-    //   where: {
-    //     OR: [{ email: email }, { username: username }],
-    //   },
-    // });
-
-    // if (existingUser) {
-    //   return res
-    //     .status(409)
-    //     .json({ message: "Email or username already in use" });
-    // }
 
     const newUser = await createUser(
       username,

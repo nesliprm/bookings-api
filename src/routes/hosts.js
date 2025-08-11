@@ -66,36 +66,6 @@ router.put("/:id", auth, async (req, res, next) => {
       aboutMe,
     } = req.body;
 
-    // if (!req.body || Object.keys(req.body).length === 0) {
-    //   return res.status(400).json({
-    //     message: "Missing update data — fields cannot be empty.",
-    //   });
-    // }
-
-    // const existingHost = await prisma.host.findUnique({
-    //   where: { id },
-    // });
-
-    // if (!existingHost) {
-    //   return res.status(404).json({ message: `Host with id ${id} not found` });
-    // }
-
-    // if (username && username !== existingHost.username) {
-    //   const usernameTaken = await prisma.host.findUnique({
-    //     where: { username },
-    //   });
-    //   if (usernameTaken) {
-    //     return res.status(409).json({ message: "Username already exists." });
-    //   }
-    // }
-
-    // if (email && email !== existingHost.email) {
-    //   const emailTaken = await prisma.host.findUnique({ where: { email } });
-    //   if (emailTaken) {
-    //     return res.status(409).json({ message: "Email already exists." });
-    //   }
-    // }
-
     const host = await updateHostById(id, {
       username,
       password,
@@ -150,22 +120,6 @@ router.post("/", async (req, res, next) => {
     );
     res.status(201).json(newHost);
   } catch (error) {
-    // if (
-    //   error.code === "P2002" &&
-    //   Array.isArray(error.meta?.target) &&
-    //   error.meta.target.includes("email")
-    // ) {
-    //   return res.status(409).json({ message: "Email already exists." });
-    // }
-
-    // if (
-    //   error.code === "P2002" &&
-    //   Array.isArray(error.meta?.target) &&
-    //   error.meta.target.includes("username")
-    // ) {
-    //   return res.status(409).json({ message: "Username already exists." });
-    // }
-
     next(error);
   }
 });
