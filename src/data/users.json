@@ -7,7 +7,7 @@
       "name": "John Doe",
       "email": "johndoe@example.com",
       "phoneNumber": "123-456-7890",
-      "profilePicture": "https://wincacademy.github.io/webpages/media/johndoe.jpeg"
+      "pictureUrl": "https://wincacademy.github.io/webpages/media/johndoe.jpeg"
     },
     {
       "id": "b2345678-90cd-ef01-2345-6789abcdef01",
@@ -16,7 +16,7 @@
       "name": "Anna Simpson",
       "email": "annasimpson@example.com",
       "phoneNumber": "123-456-7891",
-      "profilePicture": "https://wincacademy.github.io/webpages/media/article-author.png"
+      "pictureUrl": "https://wincacademy.github.io/webpages/media/article-author.png"
     },
     {
       "id": "c3456789-01de-f012-3456-789abcdef012",
@@ -25,7 +25,7 @@
       "name": "Robert James",
       "email": "robertjames@example.com",
       "phoneNumber": "123-456-7892",
-      "profilePicture": "https://wincacademy.github.io/webpages/media/robertjames.jpeg"
+      "pictureUrl": "https://wincacademy.github.io/webpages/media/robertjames.jpeg"
     },
     {
       "id": "d4567890-12ef-0123-4567-89abcdef0123",
@@ -34,7 +34,7 @@
       "name": "Karen Lopez",
       "email": "karenlopez@example.com",
       "phoneNumber": "123-456-7893",
-      "profilePicture": "https://wincacademy.github.io/webpages/media/person9.jpeg"
+      "pictureUrl": "https://wincacademy.github.io/webpages/media/person9.jpeg"
     },
     {
       "id": "e5678901-23f0-1234-5678-9abcdef01234",
@@ -43,7 +43,7 @@
       "name": "Steve Miller",
       "email": "stevemiller@example.com",
       "phoneNumber": "123-456-7894",
-      "profilePicture": "https://wincacademy.github.io/webpages/media/person6.jpeg"
+      "pictureUrl": "https://wincacademy.github.io/webpages/media/person6.jpeg"
     }
   ]
 }
